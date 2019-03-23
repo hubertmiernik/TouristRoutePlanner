@@ -13,7 +13,7 @@
         android:theme="@style/AppThemeRegist"
         android:usesCleartextTraffic="true">
         <activity android:name=".HomeActivity"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity android:name=".RegisterActivity" />
