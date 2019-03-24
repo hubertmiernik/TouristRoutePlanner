@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/name"
-            android:hint="Name"
+            android:hint="Imię"
             android:inputType="textPersonName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -39,24 +39,25 @@
         app:passwordToggleEnabled="true">
         <EditText
             android:id="@+id/password"
-            android:hint="Password"
+            android:hint="Hasło"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </android.support.design.widget.TextInputLayout>
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <Button
         android:id="@+id/btn_regist"
-        android:text="Register"
+        android:text="Zarejestruj"
         android:layout_margin="30dp"
         android:layout_height="55dp"
         android:layout_width="match_parent"
         android:backgroundTint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/link_login"
+        android:text="Masz juz konto? Zaloguj się"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

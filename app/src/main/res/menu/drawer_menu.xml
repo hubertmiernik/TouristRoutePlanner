@@ -9,7 +9,22 @@
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map"
-            android:title="Mapy" />
+            android:title="Mapa" />
+
+        <item
+            android:id="@+id/nav_routes"
+            android:icon="@drawable/ic_place"
+            android:title="Trasy turystyczne" />
+
+        <item
+            android:id="@+id/nav_filter"
+            android:icon="@drawable/ic_filter"
+            android:title="Filtruj trasy" />
+
+        <item
+            android:id="@+id/nav_favourites"
+            android:icon="@drawable/ic_favorite"
+            android:title="Ulubione trasy" />
 
         <item
             android:id="@+id/logout"

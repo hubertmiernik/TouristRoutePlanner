@@ -60,6 +60,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
 
+            case R.id.nav_routes:
+                Intent intent2 = new Intent(MainActivity.this, RoutesActivity.class);
+                startActivity(intent2);
+                break;
+
+            case R.id.nav_filter:
+                Intent intent3 = new Intent(MainActivity.this, FilterActivity.class);
+                startActivity(intent3);
+                break;
+
+            case R.id.nav_favourites:
+                Intent intent4 = new Intent(MainActivity.this, FavoriteActivity.class);
+                startActivity(intent4);
+                break;
+
             case R.id.logout:
                 sessionManager.logout();
                 break;
