@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText name, email, password, c_password;
+    private EditText name, email, password;
     private Button btn_regist;
     private TextView link_login;
     private static String URL_REGIST = "http://192.168.21.19/android_register_login/register.php";
@@ -80,13 +80,13 @@ public class RegisterActivity extends AppCompatActivity {
                         String success = jsonObject.getString("success");
 
                         if(success.equals("1")){
-                            Toast.makeText(RegisterActivity.this, "Register Success!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Sukces! Teraz możesz się zalogować.", Toast.LENGTH_SHORT).show();
 
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(RegisterActivity.this, "Register Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                     }
@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(RegisterActivity.this, "Register Error! " + error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Error! " + error.toString(), Toast.LENGTH_SHORT).show();
 
 
                     }
