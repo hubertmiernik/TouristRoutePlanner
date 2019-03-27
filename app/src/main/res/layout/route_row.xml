@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/routeImageID"
+                android:background="@android:color/background_dark"
+                android:layout_width="90dp"
+                android:layout_height="90dp" />
+
+            <TextView
+                android:id="@+id/routeNameID"
+                android:paddingLeft="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_toRightOf="@+id/routeImageID"
+                android:text="Nazwa trasy"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/routeRegionID"
+                android:padding="5dp"
+                android:layout_toRightOf="@+id/routeImageID"
+                android:text="Województwo"
+                android:layout_below="@+id/routeNameID"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!--<TextView-->
+                <!--android:id="@+id/latitudeID"-->
+                <!--android:padding="5dp"-->
+                <!--android:layout_toRightOf="@+id/routeImageID"-->
+                <!--android:layout_below="@+id/regionID"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:text="Długość geograficzna"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+
+        </RelativeLayout>
+
+
+
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+</LinearLayout>
