@@ -19,8 +19,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -38,8 +36,7 @@
             android:label="@string/title_activity_maps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"
-                />
+                android:value=".MainActivity" />
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />

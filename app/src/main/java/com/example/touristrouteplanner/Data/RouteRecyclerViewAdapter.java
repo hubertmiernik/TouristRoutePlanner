@@ -48,7 +48,6 @@ public class RouteRecyclerViewAdapter extends RecyclerView.Adapter<RouteRecycler
         Picasso.with(context).load(pictureLink).placeholder(android.R.drawable.ic_btn_speak_now).into(holder.picture);
 
 
-
     }
 
     @Override
@@ -59,16 +58,16 @@ public class RouteRecyclerViewAdapter extends RecyclerView.Adapter<RouteRecycler
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView name;
-        ImageView picture;
         TextView region;
+        ImageView picture;
 
         public ViewHolder(@NonNull View itemView, Context ctx) {
             super(itemView);
             context = ctx;
 
             name = (TextView) itemView.findViewById(R.id.routeNameID);
-            picture = (ImageView) itemView.findViewById(R.id.routeImageID);
             region = (TextView) itemView.findViewById(R.id.routeRegionID);
+            picture = (ImageView) itemView.findViewById(R.id.routeImageID);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
