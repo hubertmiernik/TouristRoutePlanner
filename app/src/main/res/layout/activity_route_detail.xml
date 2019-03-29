@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RouteDetailActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="2dp"
+
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.031" >
+
+        <RelativeLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/routeImageID"
+                android:background="@android:color/background_dark"
+                android:layout_width="398dp"
+                android:layout_height="208dp" />
+
+
+            <TextView
+                android:id="@+id/routeNameID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingLeft="5dp"
+                android:text="Nazwa trasy"
+                android:layout_toRightOf="@+id/name"
+                android:layout_below="@id/routeImageID"/>
+
+            <TextView
+                android:padding="5dp"
+                android:text="Województwo:"
+                android:id="@+id/region"
+                android:textStyle="bold"
+                android:layout_below="@id/routeNameID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:padding="5dp"
+                android:id="@+id/routeRegionID"
+                android:layout_below="@id/routeNameID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/region"/>
+
+            <TextView
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/latitude"
+                android:textStyle="bold"
+                android:text="Długość geograficzna:"
+                android:layout_below="@+id/routeRegionID"/>
+
+            <TextView
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/routeLatitude"
+                android:layout_below="@+id/routeRegionID"
+                android:layout_toRightOf="@+id/latitude"/>
+
+            <TextView
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/longitude"
+                android:textStyle="bold"
+                android:text="Szerokość geograficzna: "
+                android:layout_below="@+id/routeLatitude"/>
+
+            <TextView
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/routeLongitude"
+                android:layout_below="@+id/routeLatitude"
+                android:layout_toRightOf="@+id/longitude"/>
+
+            <TextView
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/routeDescription"
+                android:text="Opis"
+                android:layout_below="@+id/routeLongitude"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

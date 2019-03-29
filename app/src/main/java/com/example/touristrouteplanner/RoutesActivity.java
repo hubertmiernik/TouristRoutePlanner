@@ -1,15 +1,11 @@
 package com.example.touristrouteplanner;
 
-import android.app.DownloadManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,16 +17,13 @@ import com.android.volley.toolbox.Volley;
 import com.example.touristrouteplanner.Data.RouteRecyclerViewAdapter;
 import com.example.touristrouteplanner.Model.Route;
 import com.example.touristrouteplanner.Util.Constans;
-import com.example.touristrouteplanner.Util.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RoutesActivity extends AppCompatActivity {
 
@@ -50,25 +43,20 @@ public class RoutesActivity extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//            }
-//        });
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         routeList = new ArrayList<>();
+        //getRoutes();
 
-//        Prefs prefs = new Prefs(RoutesActivity.this);
-//        String search = prefs.getSearch();
-
-       // getRoutes();
+//        Route route = new Route();
+//        route.setName("test name");
+//        route.setRegion("test region");
+//        route.setPicture("https://static.polskieszlaki.pl/zdjecia/wycieczki/2013-04/900_470/malopolska-trasa-unesco-191589.jpg");
+//        routeList.add(route);
 
         routeList = getRoutes();
 
@@ -77,65 +65,55 @@ public class RoutesActivity extends AppCompatActivity {
         routeRecyclerViewAdapter.notifyDataSetChanged();
 
 
-
-
     }
 
 
-    //get routes
     public List<Route> getRoutes(){
-        routeList.clear();
+        // routeList.clear();
 
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        JsonArrayRequest arrayRequest = new JsonArrayRequest(Request.Method.GET,
-                Constans.URL,null, new Response.Listener<JSONArray>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constans.URL, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
 
-                for (int i=0; i<response.length(); i++){
-                    try {
-                        JSONObject routeObject = response.getJSONObject(i);
+                try{
+                    JSONArray routesArray = response.getJSONArray("routes");
 
-                        //Log.d("nazwa: ", routeObject.getString("picture"));
+                    for (int i=0; i<routesArray.length(); i++){
+
+                        JSONObject routeObj = routesArray.getJSONObject(i);
+
+
 
                         Route route = new Route();
-                        route.setName(routeObject.getString("name"));
-                        route.setRegion(routeObject.getString("region"));
-//                        route.setLatitude(routeObject.getString("latitude"));
-//                        route.setLongitude(routeObject.getString("longitude"));
-                        route.setPicture(routeObject.getString("picture"));
+                        route.setName(routeObj.getString("name"));
+                        route.setRegion(routeObj.getString("region"));
+                        route.setPicture(routeObj.getString("picture"));
+                        route.setDescription(routeObj.getString("description"));
+                        route.setLongitude(routeObj.getString("longitude"));
+                        route.setLatitude(routeObj.getString("latitude"));
+
+//
+//                        Log.d("Routes ", route.getName());
 
 
-                       routeList.add(route);
+                        routeList.add(route);
 
-
-                        Log.d("Name: ", route.getName());
-                        Log.d("Region: ", route.getRegion());
-                        Log.d("Picture: ", route.getPicture());
-
-
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+
+                    routeRecyclerViewAdapter.notifyDataSetChanged();
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
-
-                // Log.d("Response", response.toString());
-
-
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Error dupa", error.getMessage());
 
             }
         });
-        queue.add(arrayRequest);
+
+        queue.add(jsonObjectRequest);
         return routeList;
 
 

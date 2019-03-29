@@ -1,6 +1,8 @@
 package com.example.touristrouteplanner.Data;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.touristrouteplanner.Model.Route;
 import com.example.touristrouteplanner.R;
+import com.example.touristrouteplanner.RouteDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -61,7 +64,7 @@ public class RouteRecyclerViewAdapter extends RecyclerView.Adapter<RouteRecycler
         TextView region;
         ImageView picture;
 
-        public ViewHolder(@NonNull View itemView, Context ctx) {
+        public ViewHolder(@NonNull View itemView, final Context ctx) {
             super(itemView);
             context = ctx;
 
@@ -73,8 +76,10 @@ public class RouteRecyclerViewAdapter extends RecyclerView.Adapter<RouteRecycler
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(context, "Row Tapped!", Toast.LENGTH_LONG).show();
-
+                    Route route = routeList.get(getAdapterPosition());
+                    Intent intent = new Intent(context, RouteDetailActivity.class);
+                    intent.putExtra("route", route);
+                    ctx.startActivity(intent);
                 }
             });
 
