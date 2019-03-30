@@ -6,18 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".RouteDetailActivity">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="2dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="2dp"
 
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.031" >
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
         <RelativeLayout
             android:padding="5dp"
@@ -25,11 +17,19 @@
             android:layout_height="match_parent">
 
 
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="398dp"
+                android:layout_height="208dp">
+
+            </com.google.android.gms.maps.MapView>
+
             <ImageView
                 android:id="@+id/routeImageID"
                 android:background="@android:color/background_dark"
                 android:layout_width="398dp"
-                android:layout_height="208dp" />
+                android:layout_height="208dp"
+                android:layout_below="@+id/routeDescription"/>
 
 
             <TextView
@@ -41,7 +41,7 @@
                 android:paddingLeft="5dp"
                 android:text="Nazwa trasy"
                 android:layout_toRightOf="@+id/name"
-                android:layout_below="@id/routeImageID"/>
+                android:layout_below="@id/mapView"/>
 
             <TextView
                 android:padding="5dp"
@@ -102,7 +102,11 @@
                 android:text="Opis"
                 android:layout_below="@+id/routeLongitude"/>
 
+
+
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+
+
+</ScrollView>
 
 </android.support.constraint.ConstraintLayout>
