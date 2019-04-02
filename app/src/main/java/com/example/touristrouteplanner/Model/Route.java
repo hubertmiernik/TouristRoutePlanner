@@ -13,6 +13,15 @@ public class Route implements Serializable {
     private String longitude;
     private String picture;
 
+    public Route(String name, String description, String region, String latitude, String longitude, String picture) {
+        this.name = name;
+        this.description = description;
+        this.region = region;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.picture = picture;
+    }
+
     public Route() {
     }
 

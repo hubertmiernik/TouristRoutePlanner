@@ -118,10 +118,10 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap map) {
 
-        Float fLatitude = Float.valueOf(routeLatitude);
-        Float fLongitude = Float.valueOf(routeLongitude);
+        Double doubleLatitude = Double.valueOf(routeLatitude);
+        Double doubleLongitude = Double.valueOf(routeLongitude);
 
-        LatLng latLng = new LatLng(fLatitude, fLongitude);
+        LatLng latLng = new LatLng(doubleLatitude, doubleLongitude);
         map.addMarker(new MarkerOptions().position(latLng).title(routeName));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, (float) 4.5));
     }
