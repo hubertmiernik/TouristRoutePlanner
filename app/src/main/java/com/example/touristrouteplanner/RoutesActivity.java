@@ -4,19 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.touristrouteplanner.Data.RouteRecyclerViewAdapter;
-import com.example.touristrouteplanner.Model.Route;
-import com.example.touristrouteplanner.Util.Constans;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +25,7 @@ public class RoutesActivity extends AppCompatActivity {
     private RouteRecyclerViewAdapter routeRecyclerViewAdapter;
     private List<Route> routeList;
     private RequestQueue queue;
+    public static final String URL = "http://192.168.21.19/android_register_login/test.php";
 
 
 
@@ -71,7 +66,7 @@ public class RoutesActivity extends AppCompatActivity {
     public List<Route> getRoutes(){
         // routeList.clear();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constans.URL, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 

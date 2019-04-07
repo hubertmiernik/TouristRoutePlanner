@@ -22,9 +22,9 @@
             android:title="Filtruj trasy" />
 
         <item
-            android:id="@+id/nav_favourites"
+            android:id="@+id/nav_planner"
             android:icon="@drawable/ic_favorite"
-            android:title="Ulubione trasy" />
+            android:title="Zaplanuj trasę" />
 
         <item
             android:id="@+id/logout"

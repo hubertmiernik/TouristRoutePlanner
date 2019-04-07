@@ -103,12 +103,6 @@ public class LoginActivity extends AppCompatActivity {
                                     intent.putExtra("email", email);
                                     startActivity(intent);
 
-//                                    Toast.makeText(LoginActivity.this,
-//                                            "Success Login. \nYour name : "
-//                                                    +name+"\nYour email : "
-//                                                    +email, Toast.LENGTH_SHORT).show();
-
-
                                 }
 
                             }

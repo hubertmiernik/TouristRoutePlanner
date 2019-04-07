@@ -1,10 +1,10 @@
-package com.example.touristrouteplanner.Model;
+package com.example.touristrouteplanner;
+
+import com.android.volley.toolbox.StringRequest;
 
 import java.io.Serializable;
 
 public class Route implements Serializable {
-
-    private static final long id = 1;
 
     private String name;
     private String description;
@@ -12,15 +12,24 @@ public class Route implements Serializable {
     private String latitude;
     private String longitude;
     private String picture;
+    private String difficulty;
+    private String endLatitude;
+    private String endLongitude;
+    private int length;
 
-    public Route(String name, String description, String region, String latitude, String longitude, String picture) {
+    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, int length) {
         this.name = name;
         this.description = description;
         this.region = region;
         this.latitude = latitude;
         this.longitude = longitude;
         this.picture = picture;
+        this.difficulty = difficulty;
+        this.endLatitude = endLatitude;
+        this.endLongitude = endLongitude;
+        this.length = length;
     }
+
 
     public Route() {
     }
@@ -73,6 +82,38 @@ public class Route implements Serializable {
         this.picture = picture;
     }
 
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public String getEndLatitude() {
+        return endLatitude;
+    }
+
+    public void setEndLatitude(String endLatitude) {
+        this.endLatitude = endLatitude;
+    }
+
+    public String getEndLongitude() {
+        return endLongitude;
+    }
+
+    public void setEndLongitude(String endLongitude) {
+        this.endLongitude = endLongitude;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
 
 
 }
