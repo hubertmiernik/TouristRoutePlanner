@@ -63,9 +63,9 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
             super(itemView);
             context = ctx;
 
-            name =  itemView.findViewById(R.id.routeNameID);
-            region =  itemView.findViewById(R.id.routeRegionID);
-            difficulty = itemView.findViewById(R.id.difficulty);
+            name =  itemView.findViewById(R.id.routeNameID2);
+            region =  itemView.findViewById(R.id.routeRegionID2);
+            difficulty = itemView.findViewById(R.id.routeDifficultyID2);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

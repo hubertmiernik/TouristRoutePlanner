@@ -49,8 +49,8 @@ public class FilterActivity extends AppCompatActivity {
         difficulty = findViewById(R.id.difficulty);
         btn_filter = findViewById(R.id.btn_filter);
 
-        queue = Volley.newRequestQueue(this);
-        routeList = new ArrayList<>();
+//        queue = Volley.newRequestQueue(this);
+//        routeList = new ArrayList<>();
 
 
 
@@ -61,13 +61,16 @@ public class FilterActivity extends AppCompatActivity {
                 String tempRegion = region.getText().toString().trim();
                 String tempDifficulty = difficulty.getText().toString().trim();
 
-                routeList = getFilterRoutes(tempRegion, tempDifficulty);
+//                routeList = getFilterRoutes(tempRegion, tempDifficulty);
 
 
                 Intent intent = new Intent(FilterActivity.this, FilterRoutes.class);
+
 //                intent.putExtra("routeList", (Parcelable) routeList);
 //                                    intent.putExtra("region", region);
 //                                    intent.putExtra("difficulty", difficulty);
+                intent.putExtra("region", tempRegion);
+                intent.putExtra("difficulty", tempDifficulty);
 
                 startActivity(intent);
 

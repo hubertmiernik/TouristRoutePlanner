@@ -27,7 +27,7 @@
 
 
             <TextView
-                android:id="@+id/routeNameID"
+                android:id="@+id/routeNameID2"
                 android:paddingLeft="5dp"
                 android:layout_centerHorizontal="true"
                 android:text="Nazwa trasy"
@@ -36,19 +36,19 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/routeRegionID"
+                android:id="@+id/routeRegionID2"
                 android:padding="5dp"
                 android:text="Województwo"
-                android:layout_below="@+id/routeNameID"
+                android:layout_below="@+id/routeNameID2"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/routeDifficultyID"
+                android:id="@+id/routeDifficultyID2"
                 android:padding="5dp"
                 android:text="Trudność szlaku"
-                android:layout_below="@+id/routeRegionID"
+                android:layout_below="@+id/routeRegionID2"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
