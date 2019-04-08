@@ -7,10 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -71,10 +68,10 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
                 @Override
                 public void onClick(View v) {
 
-//                    Route route = routeList.get(getAdapterPosition());
-//                    Intent intent = new Intent(context, RouteDetailActivity.class);
-//                    intent.putExtra("route", route);
-//                    ctx.startActivity(intent);
+                    Route route = routeList.get(getAdapterPosition());
+                    Intent intent = new Intent(context, DirectionActivity.class);
+                    intent.putExtra("route", route);
+                    ctx.startActivity(intent);
                 }
             });
 

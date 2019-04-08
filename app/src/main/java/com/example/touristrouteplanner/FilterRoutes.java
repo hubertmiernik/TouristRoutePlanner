@@ -42,9 +42,6 @@ public class FilterRoutes extends AppCompatActivity {
         String region = getIntent().getStringExtra("region");
         String difficulty = getIntent().getStringExtra("difficulty");
 
-        System.out.println("REGION FROM FILTER ROUTES: " + region);
-        System.out.println("DIF FROM FILTER ROUTES: " + difficulty);
-
         routeList = new ArrayList<>();
         routeList = getFilterRoutes(region, difficulty);
         System.out.println(routeList.toString());
@@ -56,10 +53,6 @@ public class FilterRoutes extends AppCompatActivity {
         filterRecyclerViewAdapter = new FilterRecyclerViewAdapter(this, routeList);
         recyclerView.setAdapter(filterRecyclerViewAdapter);
         filterRecyclerViewAdapter.notifyDataSetChanged();
-
-
-
-
 
     }
 
@@ -95,16 +88,11 @@ public class FilterRoutes extends AppCompatActivity {
                                 Log.d("trudnosc: ", object.getString("difficulty"));
 
 
-
-
-
-
                                 routeList.add(route);
 
                             }
 
                               filterRecyclerViewAdapter.notifyDataSetChanged();
-
 
 
 

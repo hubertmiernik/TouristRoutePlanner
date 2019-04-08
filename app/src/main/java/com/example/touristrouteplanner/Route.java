@@ -82,7 +82,6 @@ public class Route implements Serializable {
         this.picture = picture;
     }
 
-
     public String getDifficulty() {
         return difficulty;
     }

@@ -45,14 +45,6 @@ public class RoutesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         routeList = new ArrayList<>();
-        //getRoutes();
-
-//        Route route = new Route();
-//        route.setName("test name");
-//        route.setRegion("test region");
-//        route.setPicture("https://static.polskieszlaki.pl/zdjecia/wycieczki/2013-04/900_470/malopolska-trasa-unesco-191589.jpg");
-//        routeList.add(route);
-
         routeList = getRoutes();
 
         routeRecyclerViewAdapter = new RouteRecyclerViewAdapter(this, routeList);

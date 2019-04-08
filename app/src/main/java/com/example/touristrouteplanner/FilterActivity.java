@@ -81,80 +81,80 @@ public class FilterActivity extends AppCompatActivity {
 
     }
 
-    private List<Route> getFilterRoutes(final String region, final String difficulty) {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_FILTER,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArray = jsonObject.getJSONArray("routes");
-
-
-
-                                for (int i=0; i<jsonArray.length(); i++){
-
-                                    JSONObject object = jsonArray.getJSONObject(i);
-
-
-                                    Route route = new Route();
-                                    route.setName(object.getString("name"));
-                                    route.setRegion(object.getString("region"));
-                                    route.setLongitude(object.getString("longitude"));
-                                    route.setLatitude(object.getString("latitude"));
-                                    route.setEndLongitude(object.getString("endlongitude"));
-                                    route.setEndLatitude(object.getString("endlatitude"));
-                                    route.setDifficulty(object.getString("difficulty"));
-
-                                    Log.d("trasa: ", object.getString("name"));
-                                    Log.d("trudnosc: ", object.getString("difficulty"));
-
-
-
-
-
-
-                                    routeList.add(route);
-
-                                }
-
-                          //  filterRecyclerViewAdapter.notifyDataSetChanged();
-
-
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(FilterActivity.this, "Error "+e.toString(), Toast.LENGTH_SHORT);
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(FilterActivity.this, "Error "+error.toString(), Toast.LENGTH_SHORT);
-
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("region", region);
-                params.put("difficulty", difficulty);
-                return params;
-            }
-        };
-
-        queue.add(stringRequest);
-        return routeList;
-
-
-
-
-    }
+//    private List<Route> getFilterRoutes(final String region, final String difficulty) {
+//
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_FILTER,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(response);
+//                            JSONArray jsonArray = jsonObject.getJSONArray("routes");
+//
+//
+//
+//                                for (int i=0; i<jsonArray.length(); i++){
+//
+//                                    JSONObject object = jsonArray.getJSONObject(i);
+//
+//
+//                                    Route route = new Route();
+//                                    route.setName(object.getString("name"));
+//                                    route.setRegion(object.getString("region"));
+//                                    route.setLongitude(object.getString("longitude"));
+//                                    route.setLatitude(object.getString("latitude"));
+//                                    route.setEndLongitude(object.getString("endlongitude"));
+//                                    route.setEndLatitude(object.getString("endlatitude"));
+//                                    route.setDifficulty(object.getString("difficulty"));
+//
+//                                    Log.d("trasa: ", object.getString("name"));
+//                                    Log.d("trudnosc: ", object.getString("difficulty"));
+//
+//
+//
+//
+//
+//
+//                                    routeList.add(route);
+//
+//                                }
+//
+//                          //  filterRecyclerViewAdapter.notifyDataSetChanged();
+//
+//
+//
+//
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            Toast.makeText(FilterActivity.this, "Error "+e.toString(), Toast.LENGTH_SHORT);
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(FilterActivity.this, "Error "+error.toString(), Toast.LENGTH_SHORT);
+//
+//                    }
+//                })
+//        {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("region", region);
+//                params.put("difficulty", difficulty);
+//                return params;
+//            }
+//        };
+//
+//        queue.add(stringRequest);
+//        return routeList;
+//
+//
+//
+//
+//    }
 
 
 }
