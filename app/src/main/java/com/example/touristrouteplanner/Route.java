@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 public class Route implements Serializable {
 
+
+
     private String name;
     private String description;
     private String region;
@@ -16,8 +18,11 @@ public class Route implements Serializable {
     private String endLatitude;
     private String endLongitude;
     private int length;
+    private String distance;
+    private String duration;
 
-    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, int length) {
+
+    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, int length, String distance, String duration) {
         this.name = name;
         this.description = description;
         this.region = region;
@@ -28,6 +33,8 @@ public class Route implements Serializable {
         this.endLatitude = endLatitude;
         this.endLongitude = endLongitude;
         this.length = length;
+        this.distance = distance;
+        this.duration = duration;
     }
 
 
@@ -112,6 +119,22 @@ public class Route implements Serializable {
 
     public void setLength(int length) {
         this.length = length;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
 

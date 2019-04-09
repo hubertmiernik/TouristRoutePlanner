@@ -3,9 +3,18 @@ package com.example.touristrouteplanner;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,6 +23,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class DirectionActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback {
 
@@ -29,6 +46,15 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
     private String routeLongitude;
     private String routeEndLatitude;
     private String routeEndLongitude;
+    private RequestQueue queue;
+
+    TextView distance, duration;
+
+    private List<Route> routeDetailsWalking;
+    private List<Route> routeDetailsDriving;
+
+    SessionManager sessionManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +69,11 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
 
         btnGetDirection = findViewById(R.id.btnGetDirection);
         btnGetDirectionWalking = findViewById(R.id.btnGetDirectionWalking);
+
+        distance = findViewById(R.id.distance);
+        duration = findViewById(R.id.duration);
+
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -67,6 +98,12 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
 
                 String url = getUrl(place1.getPosition(), place2.getPosition(), "driving");
                 new FetchUrl(DirectionActivity.this).execute(url, "driving");
+                getDistanceDriving();
+
+                Route route = routeDetailsDriving.get(0);
+
+                distance.setText(route.getDistance());
+                duration.setText(route.getDuration());
 
 
             }
@@ -77,12 +114,33 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
             public void onClick(View v) {
                 String url = getUrl(place1.getPosition(), place2.getPosition(), "walking");
                 new FetchUrl(DirectionActivity.this).execute(url, "walking");
+                getDistanceWalking();
+
+                Route route = routeDetailsWalking.get(0);
+
+                distance.setText(route.getDistance());
+                duration.setText(route.getDuration());
+
 
             }
         });
 
+        routeDetailsWalking = new ArrayList<>();
+        routeDetailsWalking = getDistanceWalking();
+
+        routeDetailsDriving = new ArrayList<>();
+        routeDetailsDriving = getDistanceDriving();
+
+        sessionManager = new SessionManager(this);
+        sessionManager.checkLogin();
+
+        HashMap<String, String> user = sessionManager.getUserDetail();
+        String mName = user.get(sessionManager.NAME);
+        String mEmail = user.get(sessionManager.EMAIL);
 
 
+
+        System.out.println("UZYTKOWNIK IMIE " + mName + "MAIL " + mEmail);
 
     }
 
@@ -120,16 +178,152 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
 
-
-
-
-
     @Override
     public void onTaskDone(Object... values) {
         if(currentPolyline!=null)
             currentPolyline.remove();
         currentPolyline = map.addPolyline((PolylineOptions) values[0]);
     }
+
+
+    public List<Route> getDistanceWalking(){
+
+        Double doubleLatitude = Double.valueOf(routeLatitude);
+        Double doubleLongitude = Double.valueOf(routeLongitude);
+
+        Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
+        Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
+
+        String URL = "https://maps.googleapis.com/maps/api/directions/json?origin="+doubleLatitude+","+doubleLongitude +
+                "&destination="+doubleEndLatitude+","+doubleEndLongitude+"&mode=walking&key="+ getString(R.string.google_maps_key);
+
+
+
+       // System.out.println("TEST TEST" + URL);
+        queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    JSONArray routesArray = response.getJSONArray("routes");
+                        JSONObject routesJSONObjct = routesArray.getJSONObject(0);
+
+                        JSONArray legsArray = routesJSONObjct.getJSONArray("legs");
+
+                        JSONObject distanceObj = legsArray.getJSONObject(0);
+                        JSONObject durationObj = legsArray.getJSONObject(0);
+
+
+                        JSONObject distance = distanceObj.getJSONObject("distance");
+                        JSONObject duration = durationObj.getJSONObject("duration");
+
+
+                            Route route = new Route();
+                            route.setDistance(distance.getString("text"));
+                            route.setDuration(duration.getString("text"));
+
+
+                                Log.d("DETAIL WALKING distance", route.getDistance());
+                                Log.d("DETAIL WALKING duration", route.getDuration());
+
+                                routeDetailsWalking.add(route);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        queue.add(jsonObjectRequest);
+        return routeDetailsWalking;
+
+
+
+    }
+
+    public List<Route> getDistanceDriving(){
+
+        Double doubleLatitude = Double.valueOf(routeLatitude);
+        Double doubleLongitude = Double.valueOf(routeLongitude);
+
+        Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
+        Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
+
+        String URL = "https://maps.googleapis.com/maps/api/directions/json?origin="+doubleLatitude+","+doubleLongitude +
+                "&destination="+doubleEndLatitude+","+doubleEndLongitude+"&mode=driving&key="+ getString(R.string.google_maps_key);
+
+        // System.out.println("TEST TEST" + URL);
+        queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    JSONArray routesArray = response.getJSONArray("routes");
+                    JSONObject routesJSONObjct = routesArray.getJSONObject(0);
+
+                    JSONArray legsArray = routesJSONObjct.getJSONArray("legs");
+
+                    JSONObject distanceObj = legsArray.getJSONObject(0);
+                    JSONObject durationObj = legsArray.getJSONObject(0);
+
+
+                    JSONObject distance = distanceObj.getJSONObject("distance");
+                    JSONObject duration = durationObj.getJSONObject("duration");
+
+
+                    Route route = new Route();
+                    route.setDistance(distance.getString("text"));
+                    route.setDuration(duration.getString("text"));
+
+
+                        Log.d("DETAIL DRIVING distance", route.getDistance());
+                        Log.d("DETAIL DRIVING duration", route.getDuration());
+
+                    routeDetailsDriving.add(route);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(jsonObjectRequest);
+        return routeDetailsDriving;
+
+
+    }
+
+
+
+
+
+
+
+
+//https://maps.googleapis.com/maps/api/directions/json?origin=27.658143,85.3199503&destination=27.667491,85.3208583&mode=walking&key=AIzaSyCLn_Azn-WHmB5DnmlmC70FZJ9mq6B8qy8
+
 
 
 }

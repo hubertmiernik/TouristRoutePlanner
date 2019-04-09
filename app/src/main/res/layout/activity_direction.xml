@@ -8,6 +8,32 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:text="DYSTANS: "
+        android:textStyle="bold"
+        android:paddingLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/distance"
+        android:paddingLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="CZAS: "
+        android:textStyle="bold"
+        android:paddingLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:paddingLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,13 +46,13 @@
 
     <Button
         android:id="@+id/btnGetDirection"
-        android:text="get direction"
+        android:text="pokaż trasę samochodowa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnGetDirectionWalking"
-        android:text="get direction walking"
+        android:text="pokaż trasę pieszą"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
