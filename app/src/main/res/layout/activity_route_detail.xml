@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <com.google.android.gms.maps.MapView
                 android:id="@+id/mapView"
                 android:layout_width="398dp"
@@ -25,11 +24,20 @@
             </com.google.android.gms.maps.MapView>
 
             <ImageView
+
                 android:id="@+id/routeImageID"
                 android:background="@android:color/background_dark"
                 android:layout_width="398dp"
                 android:layout_height="208dp"
-                android:layout_below="@+id/routeDescription"/>
+                android:layout_below="@+id/btn_history"/>
+
+            <Button
+                android:layout_below="@+id/routeDescription"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/btn_history"
+                android:text="dodaj do historii tras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
             <TextView

@@ -3,9 +3,19 @@ package com.example.touristrouteplanner;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -13,6 +23,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RouteDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -31,6 +47,14 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
 
     private MapView mMapView;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+
+    private Button btn_history;
+
+    SessionManager sessionManager;
+
+    private static String URL_HISTORY = "http://192.168.21.19/android_register_login/history.php";
+
+
 
 
     @Override
@@ -61,10 +85,85 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
         longitude.setText(routeLongitude);
         Picasso.with(context).load(routePicture).placeholder(android.R.drawable.ic_btn_speak_now).into(routeImage);
 
-
         initGoogleMap(savedInstanceState);
 
+        btn_history = findViewById(R.id.btn_history);
+        btn_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                addToHistory();
+
+            }
+        });
+
+
+
     }
+
+    private void addToHistory() {
+
+        sessionManager = new SessionManager(RouteDetailActivity.this);
+        sessionManager.checkLogin();
+
+        HashMap<String, String> user = sessionManager.getUserDetail();
+        final String mEmail = user.get(sessionManager.EMAIL);
+
+
+
+        System.out.println("UZYTKOWNIK" + mEmail + "TRASA " +  routeName);
+       // Toast.makeText(RouteDetailActivity.this, "Dodano " + routeName +" do historii tras!", Toast.LENGTH_SHORT).show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_HISTORY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+
+                            if(success.equals("1")){
+                                Toast.makeText(RouteDetailActivity.this, "Dodano " + routeName +" do historii tras!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(RouteDetailActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(RouteDetailActivity.this, "Error! " + error.toString(), Toast.LENGTH_SHORT).show();
+
+
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", mEmail);
+                params.put("name", routeName);
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
+
+
+
+
+
+
 
     private void initGoogleMap(Bundle savedInstanceState){
 
