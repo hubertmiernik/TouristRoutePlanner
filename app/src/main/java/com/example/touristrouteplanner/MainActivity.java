@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_planner:
-                Intent intent4 = new Intent(MainActivity.this, PlannerActivity.class);
+                Intent intent4 = new Intent(MainActivity.this, HistoryActivity.class);
                 startActivity(intent4);
                 break;
 

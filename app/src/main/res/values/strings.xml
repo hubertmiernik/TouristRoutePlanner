@@ -5,5 +5,21 @@
     <string name="title_activity_home">Home</string>
     <string name="title_activity_maps">Mapa</string>
     <string name="title_activity_direction2">Map</string>
+
+    <string-array name="regions">
+        <item>Malopolskie</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
+    </string-array>
+
+    <string-array name="difficulty">
+        <item>czerwony</item>
+        <item>zielony</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
+    </string-array>
 </resources>
 

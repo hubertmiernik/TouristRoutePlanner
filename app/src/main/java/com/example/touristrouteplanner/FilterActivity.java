@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FilterActivity extends AppCompatActivity {
+public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText region, difficulty;
     private Button btn_filter;
@@ -39,18 +42,39 @@ public class FilterActivity extends AppCompatActivity {
     private RequestQueue queue;
 
 
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         getSupportActionBar().setTitle("Filtrowanie tras");
 
-        region = findViewById(R.id.region);
-        difficulty = findViewById(R.id.difficulty);
+//        region = findViewById(R.id.region);
+//        difficulty = findViewById(R.id.difficulty);
         btn_filter = findViewById(R.id.btn_filter);
 
 //        queue = Volley.newRequestQueue(this);
 //        routeList = new ArrayList<>();
+
+        final Spinner spinner = findViewById(R.id.spinner1);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.regions, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+
+        final Spinner spinner2 = findViewById(R.id.spinner2);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.difficulty, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(adapter2);
+        spinner2.setOnItemSelectedListener(this);
 
 
 
@@ -58,17 +82,14 @@ public class FilterActivity extends AppCompatActivity {
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tempRegion = region.getText().toString().trim();
-                String tempDifficulty = difficulty.getText().toString().trim();
 
-//                routeList = getFilterRoutes(tempRegion, tempDifficulty);
+                String tempRegion = String.valueOf(spinner.getSelectedItem());
+                String tempDifficulty = String.valueOf(spinner2.getSelectedItem());
+
 
 
                 Intent intent = new Intent(FilterActivity.this, FilterRoutes.class);
 
-//                intent.putExtra("routeList", (Parcelable) routeList);
-//                                    intent.putExtra("region", region);
-//                                    intent.putExtra("difficulty", difficulty);
                 intent.putExtra("region", tempRegion);
                 intent.putExtra("difficulty", tempDifficulty);
 
@@ -81,80 +102,28 @@ public class FilterActivity extends AppCompatActivity {
 
     }
 
-//    private List<Route> getFilterRoutes(final String region, final String difficulty) {
-//
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_FILTER,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            JSONArray jsonArray = jsonObject.getJSONArray("routes");
-//
-//
-//
-//                                for (int i=0; i<jsonArray.length(); i++){
-//
-//                                    JSONObject object = jsonArray.getJSONObject(i);
-//
-//
-//                                    Route route = new Route();
-//                                    route.setName(object.getString("name"));
-//                                    route.setRegion(object.getString("region"));
-//                                    route.setLongitude(object.getString("longitude"));
-//                                    route.setLatitude(object.getString("latitude"));
-//                                    route.setEndLongitude(object.getString("endlongitude"));
-//                                    route.setEndLatitude(object.getString("endlatitude"));
-//                                    route.setDifficulty(object.getString("difficulty"));
-//
-//                                    Log.d("trasa: ", object.getString("name"));
-//                                    Log.d("trudnosc: ", object.getString("difficulty"));
-//
-//
-//
-//
-//
-//
-//                                    routeList.add(route);
-//
-//                                }
-//
-//                          //  filterRecyclerViewAdapter.notifyDataSetChanged();
-//
-//
-//
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            Toast.makeText(FilterActivity.this, "Error "+e.toString(), Toast.LENGTH_SHORT);
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(FilterActivity.this, "Error "+error.toString(), Toast.LENGTH_SHORT);
-//
-//                    }
-//                })
-//        {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("region", region);
-//                params.put("difficulty", difficulty);
-//                return params;
-//            }
-//        };
-//
-//        queue.add(stringRequest);
-//        return routeList;
-//
-//
-//
-//
-//    }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+        if(parent.getId() == R.id.spinner1)
+        {
+            String region = parent.getItemAtPosition(position).toString();
+
+        }
+        else if(parent.getId() == R.id.spinner2)
+        {
+            String difficulty = parent.getItemAtPosition(position).toString();
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+
+    }
 }
