@@ -17,12 +17,12 @@ public class Route implements Serializable {
     private String difficulty;
     private String endLatitude;
     private String endLongitude;
-    private int length;
+    private String length;
     private String distance;
     private String duration;
 
 
-    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, int length, String distance, String duration) {
+    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, String length, String distance, String duration) {
         this.name = name;
         this.description = description;
         this.region = region;
@@ -113,11 +113,11 @@ public class Route implements Serializable {
         this.endLongitude = endLongitude;
     }
 
-    public int getLength() {
+    public String getLength() {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(String length) {
         this.length = length;
     }
 

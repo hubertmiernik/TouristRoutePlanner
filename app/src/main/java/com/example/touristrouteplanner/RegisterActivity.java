@@ -30,7 +30,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText name, email, password;
     private Button btn_regist;
     private TextView link_login;
-    private static String URL_REGIST = "http://192.168.21.19/android_register_login/register.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_REGIST,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_REGIST,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

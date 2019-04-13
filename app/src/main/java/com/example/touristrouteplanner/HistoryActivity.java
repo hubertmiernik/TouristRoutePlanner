@@ -41,6 +41,8 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_routes);
+        getSupportActionBar().setTitle("Historia tras");
+
 
 //        String region = getIntent().getStringExtra("region");
 //        String difficulty = getIntent().getStringExtra("difficulty");
@@ -66,10 +68,9 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private List<Route> getFilterRoutes(final String email) {
-        String URL_HISTORY = "http://192.168.21.19/android_register_login/test2.php";
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_HISTORY,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_HISTORY,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -91,7 +92,9 @@ public class HistoryActivity extends AppCompatActivity {
                                 route.setLatitude(object.getString("latitude"));
                                 route.setEndLongitude(object.getString("endlongitude"));
                                 route.setEndLatitude(object.getString("endlatitude"));
+                                route.setPicture(object.getString("picture"));
                                 route.setDifficulty(object.getString("difficulty"));
+                                route.setLength(object.getString("length"));
 
                                 Log.d("trasa: ", object.getString("name"));
                                 Log.d("trudnosc: ", object.getString("difficulty"));

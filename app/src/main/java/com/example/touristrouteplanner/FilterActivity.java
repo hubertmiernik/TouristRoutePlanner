@@ -37,7 +37,6 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     private Button btn_filter;
     private RecyclerView recyclerView;
     private FilterRecyclerViewAdapter filterRecyclerViewAdapter;
-    private static String URL_FILTER = "http://192.168.21.19/android_register_login/filter.php";
     private List<Route> routeList;
     private RequestQueue queue;
 

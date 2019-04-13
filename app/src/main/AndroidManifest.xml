@@ -32,8 +32,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".DirectionActivity"
-            android:label="@string/title_activity_direction2"></activity>
+            android:name=".DirectionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FilterActivity" />
+        </activity>
         <activity android:name=".FilterRoutes">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

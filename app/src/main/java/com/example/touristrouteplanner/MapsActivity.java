@@ -46,7 +46,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private RequestQueue queue;
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    public static final String URL = "http://192.168.21.19/android_register_login/test.php";
+    //public static final String URL = "http://192.168.2.124/android_register_login/test.php";
 
 
     @Override
@@ -173,7 +173,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         final Route route = new Route();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Const.URL_ROUTES, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 

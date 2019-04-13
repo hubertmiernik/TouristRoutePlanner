@@ -52,7 +52,6 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
 
     SessionManager sessionManager;
 
-    private static String URL_HISTORY = "http://192.168.21.19/android_register_login/history.php";
 
 
 
@@ -114,7 +113,7 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
         System.out.println("UZYTKOWNIK" + mEmail + "TRASA " +  routeName);
        // Toast.makeText(RouteDetailActivity.this, "Dodano " + routeName +" do historii tras!", Toast.LENGTH_SHORT).show();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_HISTORY,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_ADD_HISTORY,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

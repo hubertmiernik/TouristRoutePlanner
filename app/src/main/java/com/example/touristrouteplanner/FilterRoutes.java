@@ -38,6 +38,8 @@ public class FilterRoutes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_routes);
+        getSupportActionBar().setTitle("Filtrowanie tras");
+
 
         String region = getIntent().getStringExtra("region");
         String difficulty = getIntent().getStringExtra("difficulty");
@@ -57,10 +59,9 @@ public class FilterRoutes extends AppCompatActivity {
     }
 
     private List<Route> getFilterRoutes(final String region, final String difficulty) {
-        String URL_FILTER = "http://192.168.21.19/android_register_login/filter.php";
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_FILTER,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_FILTER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -83,6 +84,8 @@ public class FilterRoutes extends AppCompatActivity {
                                 route.setEndLongitude(object.getString("endlongitude"));
                                 route.setEndLatitude(object.getString("endlatitude"));
                                 route.setDifficulty(object.getString("difficulty"));
+                                route.setPicture(object.getString("picture"));
+                                route.setLength(object.getString("length"));
 
                                 Log.d("trasa: ", object.getString("name"));
                                 Log.d("trudnosc: ", object.getString("difficulty"));

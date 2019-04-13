@@ -42,6 +42,8 @@ public class RouteRecyclerViewAdapter extends RecyclerView.Adapter<RouteRecycler
 
         holder.name.setText(route.getName());
         holder.region.setText(route.getRegion());
+        holder.difficulty.setText(route.getDifficulty());
+        holder.length.setText(route.getLength());
 
         Picasso.with(context).load(pictureLink).placeholder(android.R.drawable.ic_btn_speak_now).into(holder.picture);
 
@@ -57,15 +59,20 @@ public class RouteRecyclerViewAdapter extends RecyclerView.Adapter<RouteRecycler
 
         TextView name;
         TextView region;
+        TextView difficulty;
+        TextView length;
         ImageView picture;
 
         public ViewHolder(@NonNull View itemView, final Context ctx) {
             super(itemView);
             context = ctx;
 
-            name = (TextView) itemView.findViewById(R.id.routeNameID);
-            region = (TextView) itemView.findViewById(R.id.routeRegionID);
-            picture = (ImageView) itemView.findViewById(R.id.routeImageID);
+            name = itemView.findViewById(R.id.routeNameID);
+            region = itemView.findViewById(R.id.routeRegionID);
+            picture = itemView.findViewById(R.id.routeImageID);
+            length =  itemView.findViewById(R.id.routeLengthID);
+            difficulty = itemView.findViewById(R.id.routeDifficultyID);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

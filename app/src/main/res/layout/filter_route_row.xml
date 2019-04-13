@@ -25,11 +25,17 @@
             android:layout_height="wrap_content"
             android:padding="12dp">
 
+            <ImageView
+                android:id="@+id/routeImageID2"
+                android:background="@android:color/background_dark"
+                android:layout_width="153.5dp"
+                android:layout_height="80dp" />
 
             <TextView
                 android:id="@+id/routeNameID2"
                 android:paddingLeft="5dp"
                 android:layout_centerHorizontal="true"
+                android:layout_toRightOf="@+id/routeImageID2"
                 android:text="Nazwa trasy"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -37,7 +43,8 @@
 
             <TextView
                 android:id="@+id/routeRegionID2"
-                android:padding="5dp"
+                android:paddingLeft="5dp"
+                android:layout_toRightOf="@+id/routeImageID2"
                 android:text="Województwo"
                 android:layout_below="@+id/routeNameID2"
                 android:layout_centerHorizontal="true"
@@ -45,18 +52,54 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/routeDifficultyID2"
-                android:padding="5dp"
-                android:text="Trudność szlaku"
+                android:id="@+id/diff"
+                android:paddingLeft="5dp"
+                android:layout_toRightOf="@+id/routeImageID2"
+                android:text="Kolor szlaku:"
                 android:layout_below="@+id/routeRegionID2"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <TextView
+                android:id="@+id/routeDifficultyID2"
+                android:paddingLeft="5dp"
+                android:layout_toRightOf="@+id/diff"
+                android:layout_below="@+id/routeRegionID2"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/length"
+                android:paddingLeft="5dp"
+                android:layout_toRightOf="@+id/routeImageID2"
+                android:text="Długość szlaku:"
+                android:layout_below="@+id/routeDifficultyID2"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/routeLengthID2"
+                android:paddingLeft="5dp"
+                android:layout_toRightOf="@+id/length"
+                android:layout_below="@+id/routeDifficultyID2"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_toRightOf="@+id/routeLengthID2"
+                android:text=" km"
+                android:layout_below="@+id/routeDifficultyID2"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
         </RelativeLayout>
-
-
-
 
 
     </android.support.v7.widget.CardView>
@@ -65,3 +108,6 @@
 
 
 </LinearLayout>
+
+
+

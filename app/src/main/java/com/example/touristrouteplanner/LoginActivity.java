@@ -29,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText email, password;
     private Button btn_login;
     private TextView link_regist;
-    private static String URL_LOGIN = "http://192.168.21.19/android_register_login/login.php";
     SessionManager sessionManager;
 
 
@@ -78,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btn_login.setVisibility(View.GONE);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_LOGIN,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_LOGIN,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

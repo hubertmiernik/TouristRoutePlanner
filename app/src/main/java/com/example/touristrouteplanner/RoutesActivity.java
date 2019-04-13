@@ -25,7 +25,6 @@ public class RoutesActivity extends AppCompatActivity {
     private RouteRecyclerViewAdapter routeRecyclerViewAdapter;
     private List<Route> routeList;
     private RequestQueue queue;
-    public static final String URL = "http://192.168.21.19/android_register_login/test.php";
 
 
 
@@ -58,7 +57,7 @@ public class RoutesActivity extends AppCompatActivity {
     public List<Route> getRoutes(){
         // routeList.clear();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Const.URL_ROUTES, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -78,6 +77,8 @@ public class RoutesActivity extends AppCompatActivity {
                         route.setDescription(routeObj.getString("description"));
                         route.setLongitude(routeObj.getString("longitude"));
                         route.setLatitude(routeObj.getString("latitude"));
+                        route.setDifficulty(routeObj.getString("difficulty"));
+                        route.setLength(routeObj.getString("length"));
 
 //
 //                        Log.d("Routes ", route.getName());
