@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,7 +19,6 @@
                 android:id="@+id/mapView"
                 android:layout_width="398dp"
                 android:layout_height="208dp">
-
             </com.google.android.gms.maps.MapView>
 
             <ImageView
@@ -29,18 +27,37 @@
                 android:background="@android:color/background_dark"
                 android:layout_width="398dp"
                 android:layout_height="208dp"
-                android:layout_below="@+id/btn_history"/>
+                android:layout_below="@+id/buttons"/>
 
-            <Button
-                android:layout_below="@+id/routeDescription"
+            <LinearLayout
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:layout_centerHorizontal="true"
-                android:id="@+id/btn_history"
-                android:text="dodaj do historii tras"
+                android:id="@+id/buttons"
+                android:layout_below="@+id/routeDescription"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_below="@+id/routeDescription"
+                    android:id="@+id/btn_history"
+                    android:text="dodaj do historii tras"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:layout_toRightOf="@+id/btn_history"
+                    android:layout_below="@+id/routeDescription"
+                    android:id="@+id/btn_history_remove"
+                    android:text="usun z historii tras"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
 
             <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:id="@+id/routeNameID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,7 +69,9 @@
                 android:layout_below="@id/mapView"/>
 
             <TextView
-                android:padding="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
                 android:text="Województwo:"
                 android:id="@+id/region"
                 android:textStyle="bold"
@@ -61,7 +80,9 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:padding="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
                 android:id="@+id/routeRegionID"
                 android:layout_below="@id/routeNameID"
                 android:layout_width="wrap_content"
@@ -69,46 +90,162 @@
                 android:layout_toRightOf="@+id/region"/>
 
             <TextView
-                android:padding="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/latitude"
+                android:id="@+id/latlon"
                 android:textStyle="bold"
-                android:text="Długość geograficzna:"
+                android:text="Współrzędne początku trasy:"
                 android:layout_below="@+id/routeRegionID"/>
 
             <TextView
-                android:padding="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="TEST DŁ"
+                android:paddingLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/routeLatitude"
                 android:layout_below="@+id/routeRegionID"
-                android:layout_toRightOf="@+id/latitude"/>
+                android:layout_toRightOf="@+id/latlon"/>
 
             <TextView
-                android:padding="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text=","
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/longitude"
-                android:textStyle="bold"
-                android:text="Szerokość geograficzna: "
-                android:layout_below="@+id/routeLatitude"/>
+                android:id="@+id/dot"
+                android:layout_below="@+id/routeRegionID"
+                android:layout_toRightOf="@+id/routeLatitude"/>
+
 
             <TextView
-                android:padding="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:text="TEST SZER"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/routeLongitude"
-                android:layout_below="@+id/routeLatitude"
-                android:layout_toRightOf="@+id/longitude"/>
+                android:layout_below="@+id/routeRegionID"
+                android:layout_toRightOf="@+id/dot"/>
+
 
             <TextView
-                android:padding="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/latlonend"
+                android:textStyle="bold"
+                android:text="Współrzędne końca trasy:"
+                android:layout_below="@+id/latlon"/>
+
+            <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="TEST DŁ"
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/endLatitude"
+                android:layout_below="@+id/latlon"
+                android:layout_toRightOf="@+id/latlonend"/>
+
+            <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text=","
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dot2"
+                android:layout_below="@+id/latlon"
+                android:layout_toRightOf="@+id/endLatitude"/>
+
+
+            <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:text="TEST SZER"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/endLongitude"
+                android:layout_below="@+id/latlon"
+                android:layout_toRightOf="@+id/dot2"/>
+
+
+
+            <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/routeDifficulty"
+                android:textStyle="bold"
+                android:text="Kolor trasy:"
+                android:layout_below="@+id/latlonend"/>
+
+            <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="TEST kolor"
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/difficulty"
+                android:layout_below="@+id/latlonend"
+                android:layout_toRightOf="@+id/routeDifficulty"/>
+
+
+            <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/routeLength"
+                android:textStyle="bold"
+                android:text="Długość trasy:"
+                android:layout_below="@+id/difficulty"/>
+
+            <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="TEST długość"
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/length"
+                android:layout_below="@+id/difficulty"
+                android:layout_toRightOf="@+id/routeLength"/>
+
+            <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="km"
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/difficulty"
+                android:layout_toRightOf="@+id/length"/>
+
+
+
+            <TextView
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/routeDescription"
                 android:text="Opis"
-                android:layout_below="@+id/routeLongitude"/>
+                android:layout_below="@+id/routeLength"/>
 
 
 

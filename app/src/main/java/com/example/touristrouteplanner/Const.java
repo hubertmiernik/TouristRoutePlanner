@@ -11,6 +11,8 @@ public class Const {
     public static final String URL_ROUTES = "http://" + HOST + "/android_register_login/test.php";
     public static final String URL_ADD_HISTORY = "http://" + HOST + "/android_register_login/history.php";
     public static final String URL_LOGIN = "http://" + HOST + "/android_register_login/login.php";
+    public static final String URL_HISTORY_REMOVE = "http://" + HOST + "/android_register_login/history_remove.php";
+
 
 
 

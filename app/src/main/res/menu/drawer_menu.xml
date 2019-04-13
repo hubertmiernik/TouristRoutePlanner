@@ -27,9 +27,14 @@
             android:title="Historia tras" />
 
         <item
+            android:id="@+id/sos"
+            android:icon="@drawable/ic_call"
+            android:title="SOS" />
+        <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="Wyloguj" />
+
 
     </group>
 

@@ -80,6 +80,10 @@ public class RoutesActivity extends AppCompatActivity {
                         route.setDifficulty(routeObj.getString("difficulty"));
                         route.setLength(routeObj.getString("length"));
 
+                        route.setEndLongitude(routeObj.getString("endlongitude"));
+                        route.setEndLatitude(routeObj.getString("endlatitude"));
+
+
 //
 //                        Log.d("Routes ", route.getName());
 

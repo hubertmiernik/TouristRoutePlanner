@@ -60,6 +60,8 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direction);
+        getSupportActionBar().setTitle("Mapa");
+
 
         route = (Route) getIntent().getSerializableExtra("route");
         routeLatitude = route.getLatitude();

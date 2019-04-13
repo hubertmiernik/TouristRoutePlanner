@@ -1,6 +1,7 @@
 package com.example.touristrouteplanner;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -75,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent4);
                 break;
 
+            case R.id.sos:
+                callSOS();
+                break;
+
             case R.id.logout:
                 sessionManager.logout();
                 break;
@@ -91,6 +96,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void callSOS() {
+        startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "112", null)));
     }
 
 

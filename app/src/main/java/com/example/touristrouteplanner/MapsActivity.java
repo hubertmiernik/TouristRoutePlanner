@@ -214,7 +214,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         marker.setTag(route.getDescription());
 
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), (float) 5.5));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.078776, 19.406949), (float) 5.5));
 
 
 

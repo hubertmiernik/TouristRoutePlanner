@@ -33,12 +33,12 @@ import java.util.Map;
 
 public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText region, difficulty;
+    private EditText length_from, length_to;
     private Button btn_filter;
-    private RecyclerView recyclerView;
-    private FilterRecyclerViewAdapter filterRecyclerViewAdapter;
-    private List<Route> routeList;
-    private RequestQueue queue;
+//    private RecyclerView recyclerView;
+//    private FilterRecyclerViewAdapter filterRecyclerViewAdapter;
+//    private List<Route> routeList;
+//    private RequestQueue queue;
 
 
 
@@ -53,8 +53,8 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_filter);
         getSupportActionBar().setTitle("Filtrowanie tras");
 
-//        region = findViewById(R.id.region);
-//        difficulty = findViewById(R.id.difficulty);
+        length_from = findViewById(R.id.from);
+        length_to = findViewById(R.id.to);
         btn_filter = findViewById(R.id.btn_filter);
 
 //        queue = Volley.newRequestQueue(this);
@@ -85,12 +85,21 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
                 String tempRegion = String.valueOf(spinner.getSelectedItem());
                 String tempDifficulty = String.valueOf(spinner2.getSelectedItem());
 
+                String tempFrom = String.valueOf(length_from.getText());
+                String tempTo = String.valueOf(length_to.getText());
+
+
 
 
                 Intent intent = new Intent(FilterActivity.this, FilterRoutes.class);
 
                 intent.putExtra("region", tempRegion);
                 intent.putExtra("difficulty", tempDifficulty);
+
+                intent.putExtra("lengthFrom", tempFrom);
+                intent.putExtra("lengthTo", tempTo);
+
+
 
                 startActivity(intent);
 

@@ -44,8 +44,13 @@ public class FilterRoutes extends AppCompatActivity {
         String region = getIntent().getStringExtra("region");
         String difficulty = getIntent().getStringExtra("difficulty");
 
+        String lengthFrom = getIntent().getStringExtra("lengthFrom");
+        String lengthTo = getIntent().getStringExtra("lengthTo");
+
+
+
         routeList = new ArrayList<>();
-        routeList = getFilterRoutes(region, difficulty);
+        routeList = getFilterRoutes(region, difficulty, lengthFrom, lengthTo);
         System.out.println(routeList.toString());
 
 
@@ -58,7 +63,7 @@ public class FilterRoutes extends AppCompatActivity {
 
     }
 
-    private List<Route> getFilterRoutes(final String region, final String difficulty) {
+    private List<Route> getFilterRoutes(final String region, final String difficulty, final String lengthFrom, final String lengthTo) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_FILTER,
@@ -84,8 +89,9 @@ public class FilterRoutes extends AppCompatActivity {
                                 route.setEndLongitude(object.getString("endlongitude"));
                                 route.setEndLatitude(object.getString("endlatitude"));
                                 route.setDifficulty(object.getString("difficulty"));
-                                route.setPicture(object.getString("picture"));
                                 route.setLength(object.getString("length"));
+                                route.setPicture(object.getString("picture"));
+
 
                                 Log.d("trasa: ", object.getString("name"));
                                 Log.d("trudnosc: ", object.getString("difficulty"));
@@ -118,6 +124,8 @@ public class FilterRoutes extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("region", region);
                 params.put("difficulty", difficulty);
+                params.put("lengthFrom", lengthFrom);
+                params.put("lengthTo", lengthTo);
                 return params;
             }
         };

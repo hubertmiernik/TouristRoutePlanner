@@ -36,7 +36,7 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
 
     private Route route;
     private ImageView routeImage;
-    private TextView name, region, latitude, longitude, description;
+    private TextView name, region, latitude, longitude, description, difficulty, length, endLatitude, endLongitude;
 
     private String routeName;
     private String routeDescription;
@@ -44,11 +44,17 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
     private String routeRegion;
     private String routeLatitude;
     private String routeLongitude;
+    private String routeDifficulty;
+    private String routeLength;
+    private String routeEndLatitude;
+    private String routeEndLongitude;
+
+
 
     private MapView mMapView;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
-    private Button btn_history;
+    private Button btn_history, btn_history_remove;
 
     SessionManager sessionManager;
 
@@ -69,6 +75,11 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
         routeRegion = route.getRegion();
         routeLatitude = route.getLatitude();
         routeLongitude = route.getLongitude();
+        routeDifficulty = route.getDifficulty();
+        routeLength = route.getLength();
+        routeEndLatitude = route.getEndLatitude();
+        routeEndLongitude = route.getEndLongitude();
+
 
         routeImage = findViewById(R.id.routeImageID);
         name = findViewById(R.id.routeNameID);
@@ -76,12 +87,20 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
         latitude = findViewById(R.id.routeLatitude);
         longitude = findViewById(R.id.routeLongitude);
         description = findViewById(R.id.routeDescription);
+        difficulty = findViewById(R.id.difficulty);
+        length = findViewById(R.id.length);
+        endLatitude = findViewById(R.id.endLatitude);
+        endLongitude = findViewById(R.id.endLongitude);
 
         name.setText(routeName);
         description.setText(routeDescription);
         region.setText(routeRegion);
         latitude.setText(routeLatitude);
         longitude.setText(routeLongitude);
+        difficulty.setText(routeDifficulty);
+        length.setText(routeLength);
+        endLatitude.setText(routeEndLatitude);
+        endLongitude.setText(routeEndLongitude);
         Picasso.with(context).load(routePicture).placeholder(android.R.drawable.ic_btn_speak_now).into(routeImage);
 
         initGoogleMap(savedInstanceState);
@@ -96,7 +115,15 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
+        btn_history_remove = findViewById(R.id.btn_history_remove);
+        btn_history_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                removeFromHistory();
+
+            }
+        });
 
     }
 
@@ -111,7 +138,7 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
 
 
         System.out.println("UZYTKOWNIK" + mEmail + "TRASA " +  routeName);
-       // Toast.makeText(RouteDetailActivity.this, "Dodano " + routeName +" do historii tras!", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(RouteDetailActivity.this, "Dodano " + routeName +" do historii tras!", Toast.LENGTH_SHORT).show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_ADD_HISTORY,
                 new Response.Listener<String>() {
@@ -157,11 +184,49 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
 
     }
 
+    private void removeFromHistory() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_HISTORY_REMOVE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+
+                            if(success.equals("1")){
+                                Toast.makeText(RouteDetailActivity.this, "Usunięto " + routeName +" z historii tras!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(RouteDetailActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(RouteDetailActivity.this, "Error! " + error.toString(), Toast.LENGTH_SHORT).show();
 
 
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", routeName);
 
+                return params;
+            }
+        };
 
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
 
+    }
 
 
     private void initGoogleMap(Bundle savedInstanceState){
@@ -241,7 +306,4 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
         super.onLowMemory();
         mMapView.onLowMemory();
     }
-
-
-
 }
