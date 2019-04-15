@@ -28,7 +28,7 @@
         android:textSize="20sp"
         android:layout_toRightOf="@+id/region"
         android:id="@+id/spinner1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -49,7 +49,7 @@
             android:textSize="20sp"
             android:layout_toRightOf="@+id/difficulty"
             android:id="@+id/spinner2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

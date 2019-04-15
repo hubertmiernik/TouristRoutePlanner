@@ -8,18 +8,29 @@
 
     <string-array name="regions">
         <item>Malopolskie</item>
-        <item>Two</item>
-        <item>Three</item>
-        <item>Four</item>
-        <item>Five</item>
+        <item>Zachodnio-pomorskie</item>
+        <item>Pomorskie</item>
+        <item>Warminsko-mazurskie</item>
+        <item>Podlaskie</item>
+        <item>Lubuskie</item>
+        <item>Wielkopolskie</item>
+        <item>Kujawsko-pomorskie</item>
+        <item>Mazowieckie</item>
+        <item>Dolnoslaskie</item>
+        <item>Lodzkie</item>
+        <item>Lubelskie</item>
+        <item>Opolskie</item>
+        <item>Slaskie</item>
+        <item>Swietokrzyskie</item>
+        <item>Podkarpackie</item>
     </string-array>
 
     <string-array name="difficulty">
         <item>czerwony</item>
+        <item>niebieski</item>
         <item>zielony</item>
-        <item>Three</item>
-        <item>Four</item>
-        <item>Five</item>
+        <item>zolty</item>
+        <item>czarny</item>
     </string-array>
 </resources>
 
