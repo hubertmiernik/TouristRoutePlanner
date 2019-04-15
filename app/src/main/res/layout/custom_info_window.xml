@@ -54,14 +54,13 @@
 
             <Button
                 android:id="@+id/btn"
-                android:layout_marginLeft="6dp"
-                android:layout_toRightOf="@id/routeRegionSnipped"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Opis..."
+                android:layout_toRightOf="@id/routeRegionSnipped"
                 android:background="@android:color/transparent"
-                android:textColor="@color/colorAccent"
-                />
+                android:paddingTop="15dp"
+                android:text="Opis..."
+                android:textColor="@color/colorAccent" />
 
 
 

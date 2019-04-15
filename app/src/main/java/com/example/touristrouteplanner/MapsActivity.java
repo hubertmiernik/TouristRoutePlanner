@@ -189,6 +189,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         double lon = Double.valueOf(routesObject.getString("longitude"));
                         double lat = Double.valueOf(routesObject.getString("latitude"));
 
+                        double lonEnd = Double.valueOf(routesObject.getString("endlongitude"));
+                        double latEnd = Double.valueOf(routesObject.getString("endlatitude"));
+
 
 
                         route.setName(routesObject.getString("name"));
@@ -196,25 +199,51 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         route.setLongitude(routesObject.getString("longitude"));
                         route.setLatitude(routesObject.getString("latitude"));
                         route.setRegion(routesObject.getString("region"));
+
+                        route.setEndLatitude(routesObject.getString("endlatitude"));
+                        route.setEndLongitude(routesObject.getString("endlongitude"));
+
+
+
                         //Log.d("Coordinates", lon + " " + lat);
 
 
 
-                        MarkerOptions markerOptions = new MarkerOptions();
+                        MarkerOptions markersBeggin = new MarkerOptions();
+                        markersBeggin.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                        markersBeggin.title("Początek trasy " + "\""+ route.getName() + "\"");
+                        markersBeggin.position(new LatLng(lat, lon));
+                        markersBeggin.snippet("Wojewdztwo: " + route.getRegion()
+//                                + "\n" +
+//                                "Długość geograficzna: " + route.getLongitude() + "\n" +
+//                                "Szerokość geograficzna " + route.getLatitude()
+                        );
 
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                        markerOptions.title(route.getName());
-                        markerOptions.position(new LatLng(lat, lon));
-                        markerOptions.snippet("Wojewdztwo: " + route.getRegion() + "\n" +
-                                "Długość geograficzna: " + route.getLongitude() + "\n" +
-                                "Szerokość geograficzna " + route.getLatitude());
 
 
-                        Marker marker = mMap.addMarker(markerOptions);
 
+                        Marker marker = mMap.addMarker(markersBeggin);
                         marker.setTag(route.getDescription());
-
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.078776, 19.406949), (float) 5.5));
+
+
+
+                        MarkerOptions markersEnd = new MarkerOptions();
+
+                        markersEnd.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                        markersEnd.title("Koniec trasy " + "\""+ route.getName() + "\"");
+                        markersEnd.position(new LatLng(latEnd, lonEnd));
+                        markersEnd.snippet("Wojewdztwo: " + route.getRegion()
+//                                + "\n" +
+//                                "Długość geograficzna: " + route.getLongitude() + "\n" +
+//                                "Szerokość geograficzna " + route.getLatitude()
+                        );
+
+
+                        Marker markerEnd = mMap.addMarker(markersEnd);
+
+                        markerEnd.setTag(route.getDescription());
+
 
 
 

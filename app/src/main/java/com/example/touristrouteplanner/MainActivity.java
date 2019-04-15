@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
-    private TextView name, email;
+    public TextView nameNav, emailNav;
     SessionManager sessionManager;
 
     @Override
@@ -41,15 +41,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
 
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
+        nameNav = findViewById(R.id.name);
+        emailNav = findViewById(R.id.email);
 
         HashMap<String, String> user = sessionManager.getUserDetail();
         String mName = user.get(sessionManager.NAME);
         String mEmail = user.get(sessionManager.EMAIL);
 
-        name.setText(mName);
-        email.setText(mEmail);
+        nameNav.setText(mName);
+        emailNav.setText(mEmail);
     }
 
 

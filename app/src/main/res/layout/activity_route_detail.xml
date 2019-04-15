@@ -27,33 +27,7 @@
                 android:background="@android:color/background_dark"
                 android:layout_width="398dp"
                 android:layout_height="208dp"
-                android:layout_below="@+id/buttons"/>
-
-            <LinearLayout
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/buttons"
-                android:layout_below="@+id/routeDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:layout_below="@+id/routeDescription"
-                    android:id="@+id/btn_history"
-                    android:text="dodaj do historii tras"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:layout_toRightOf="@+id/btn_history"
-                    android:layout_below="@+id/routeDescription"
-                    android:id="@+id/btn_history_remove"
-                    android:text="usun z historii tras"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
+                android:layout_below="@+id/routeDescription"/>
 
             <TextView
                 android:paddingBottom="5dp"
@@ -246,8 +220,6 @@
                 android:id="@+id/routeDescription"
                 android:text="Opis"
                 android:layout_below="@+id/routeLength"/>
-
-
 
         </RelativeLayout>
 

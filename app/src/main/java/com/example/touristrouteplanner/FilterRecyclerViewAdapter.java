@@ -49,9 +49,6 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
 
         Picasso.with(context).load(pictureLink).placeholder(android.R.drawable.ic_btn_speak_now).into(holder.picture);
 
-
-
-
     }
 
     @Override
@@ -83,10 +80,17 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
                 @Override
                 public void onClick(View v) {
 
+//                    Route route = routeList.get(getAdapterPosition());
+//                    Intent intent = new Intent(context, DirectionActivity.class);
+//                    intent.putExtra("route", route);
+//                    ctx.startActivity(intent);
+
                     Route route = routeList.get(getAdapterPosition());
-                    Intent intent = new Intent(context, DirectionActivity.class);
+                    Intent intent = new Intent(context, RouteDetailActivity.class);
                     intent.putExtra("route", route);
                     ctx.startActivity(intent);
+
+
                 }
             });
 

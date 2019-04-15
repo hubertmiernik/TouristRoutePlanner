@@ -1,8 +1,12 @@
 package com.example.touristrouteplanner;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,7 +24,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
@@ -54,7 +60,6 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
     private MapView mMapView;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
-    private Button btn_history, btn_history_remove;
 
     SessionManager sessionManager;
 
@@ -105,25 +110,7 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
 
         initGoogleMap(savedInstanceState);
 
-        btn_history = findViewById(R.id.btn_history);
-        btn_history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                addToHistory();
-
-            }
-        });
-
-        btn_history_remove = findViewById(R.id.btn_history_remove);
-        btn_history_remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                removeFromHistory();
-
-            }
-        });
 
     }
 
@@ -228,6 +215,13 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
 
     }
 
+    private void goToDirection(){
+        Intent intent = new Intent(RouteDetailActivity.this, DirectionActivity.class);
+        intent.putExtra("route", route);
+        startActivity(intent);
+
+    }
+
 
     private void initGoogleMap(Bundle savedInstanceState){
 
@@ -283,9 +277,29 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
         Double doubleLatitude = Double.valueOf(routeLatitude);
         Double doubleLongitude = Double.valueOf(routeLongitude);
 
+        Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
+        Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
+
+
+        Marker m1 = map.addMarker(new MarkerOptions()
+                .position(new LatLng(doubleLatitude, doubleLongitude))
+                .title("Początek trasy")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+
+        Marker m2 = map.addMarker(new MarkerOptions()
+                .position(new LatLng(doubleEndLatitude, doubleEndLongitude))
+                .title("Koniec trasy")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+
+
         LatLng latLng = new LatLng(doubleLatitude, doubleLongitude);
-        map.addMarker(new MarkerOptions().position(latLng).title(routeName));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, (float) 4.5));
+       // map.addMarker(new MarkerOptions().position(latLng).title(routeName));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((doubleLatitude+doubleEndLatitude)/2,(doubleLongitude+doubleEndLongitude)/2), 5));
+
+
+
     }
 
 
@@ -305,5 +319,35 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.item1:
+                goToDirection();
+                return true;
+
+            case R.id.item2:
+                addToHistory();
+                return true;
+
+            case R.id.item3:
+                removeFromHistory();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+
+        }
+
     }
 }

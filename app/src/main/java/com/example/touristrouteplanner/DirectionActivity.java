@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -91,8 +92,11 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
         Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
         Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
 
-        place1 = new MarkerOptions().position(new LatLng(doubleLatitude,doubleLongitude)).title("Początek trasy");
-        place2 = new MarkerOptions().position(new LatLng(doubleEndLatitude,doubleEndLongitude)).title("Koniec trasy");
+        place1 = new MarkerOptions().position(new LatLng(doubleLatitude,doubleLongitude)).title("Początek trasy")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+        place2 = new MarkerOptions().position(new LatLng(doubleEndLatitude,doubleEndLongitude)).title("Koniec trasy")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
         btnGetDirection.setOnClickListener(new View.OnClickListener() {
             @Override

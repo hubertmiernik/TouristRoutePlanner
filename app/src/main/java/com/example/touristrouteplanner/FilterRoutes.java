@@ -91,6 +91,7 @@ public class FilterRoutes extends AppCompatActivity {
                                 route.setDifficulty(object.getString("difficulty"));
                                 route.setLength(object.getString("length"));
                                 route.setPicture(object.getString("picture"));
+                                route.setDescription(object.getString("description"));
 
 
                                 Log.d("trasa: ", object.getString("name"));
