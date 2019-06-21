@@ -3,7 +3,7 @@ package com.example.touristrouteplanner;
 public class Const {
 
 
-    static String HOST = "192.168.21.27";
+    static String HOST = "192.168.21.10";
 
     public static final String URL_FILTER = "http://" + HOST + "/android_register_login/filter.php";
     public static final String URL_HISTORY = "http://" + HOST + "/android_register_login/test2.php";
