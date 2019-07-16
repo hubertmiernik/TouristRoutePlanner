@@ -19,7 +19,7 @@ import org.json.JSONException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FilterRoutes extends AppCompatActivity {
+public class FilterRoutesNew extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
@@ -63,7 +63,7 @@ public class FilterRoutes extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(FilterRoutes.this,
+                            Toast.makeText(FilterRoutesNew.this,
                                     "Error "+e.toString(),
                                     Toast.LENGTH_SHORT)
                                     .show();
@@ -74,7 +74,7 @@ public class FilterRoutes extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(FilterRoutes.this, "Error "+error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FilterRoutesNew.this, "Error "+error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 })

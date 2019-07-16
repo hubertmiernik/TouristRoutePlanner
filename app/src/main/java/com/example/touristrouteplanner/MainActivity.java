@@ -17,7 +17,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -27,11 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.example.touristrouteplanner.model.Route;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -109,17 +104,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // for ActivityCompat#requestPermissions for more details.
 
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+
 
             return;
         }
-
-        else {
-
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
-        }
-
-
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        locationTestLat = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES);
+        locationTestLon = Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
 
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
@@ -135,10 +127,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         emailNav.setText(mEmail);
 
         queue = Volley.newRequestQueue(this);
-
-
-
         getNearbyRoute();
+
+
+
+
     }
 
     @Override
@@ -156,47 +149,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void getNearbyRoute(){
 
-        final Route route = new Route();
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Const.URL_ROUTES, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Route nearbyRoute = null;
 
                 try {
                     JSONArray routes = response.getJSONArray("routes");
 
                     for (int i=0; i<routes.length(); i++){
+                        Route route;
 
-                        JSONObject routesObject = routes.getJSONObject(i);
+                        JSONObject object = routes.getJSONObject(i);
 
-                        double lon = Double.valueOf(routesObject.getString("longitude"));
-                        double lat = Double.valueOf(routesObject.getString("latitude"));
+                        double lon = Double.valueOf(object.getString("longitude"));
+                        double lat = Double.valueOf(object.getString("latitude"));
+
 
                         double lonTest = Double.valueOf(locationTestLon);
                         double latTest = Double.valueOf(locationTestLat);
 
-                        double dlugosc = Math.sqrt(Math.pow((lon - lonTest), 2) + Math.pow((lat - latTest), 2))*73;
-
-
-                        System.out.println("test2 lon " + lonTest + "test2 lat" + latTest);
-
-                        System.out.println("test3 " + dlugosc);
-
-                        route.setName(routesObject.getString("name"));
-                        route.setDescription(routesObject.getString("description"));
-                        route.setLongitude(routesObject.getString("longitude"));
-                        route.setLatitude(routesObject.getString("latitude"));
-                        route.setRegion(routesObject.getString("region"));
-
-
+                        double distance = Math.sqrt(Math.pow((lon - lonTest), 2) + Math.pow((lat - latTest), 2))*73;
+//                        System.out.println("test lon " + lon + " lat " + lat);
+//                        System.out.println("test2 lon " + lonTest + "test2 lat" + latTest);
 //                        Log.d("Longitude", routesObject.getString("longitude"));
 //                        Log.d("Latitude", routesObject.getString("latitude"));
+//                        System.out.println("Route " + i + " distance from point: " + distance);
 
+                        route = new Route(
+                                object.getString("name"),
+                                object.getString("description"),
+                                object.getString("region"),
+                                object.getString("latitude"),
+                                object.getString("longitude"),
+                                object.getString("picture"),
+                                object.getString("difficulty"),
+                                object.getString("endlatitude"),
+                                object.getString("endlongitude"),
+                                object.getString("length"),
+                                distance
+                        );
+                        System.out.println(route.toString());
 
-                        System.out.println("test lon " + lon + " lat " + lat);
-
-
+                        if (i == 0) {
+                            nearbyRoute = route;
+                        } else if (nearbyRoute.getDistanceFromPoint() > route.getDistanceFromPoint()) {
+                            nearbyRoute = route;
+                        }
                     }
+
+                    System.out.println("NEARBY ROUTE: ");
+                    assert nearbyRoute != null;
+                    System.out.println(nearbyRoute.toString());
 
 
                 } catch (JSONException e) {
@@ -212,11 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         queue.add(jsonObjectRequest);
-
-
     }
-
-
 
 
     @Override

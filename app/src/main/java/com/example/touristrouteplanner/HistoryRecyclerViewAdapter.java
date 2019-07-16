@@ -1,7 +1,6 @@
 package com.example.touristrouteplanner;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.touristrouteplanner.model.Route;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -48,9 +48,6 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         holder.length.setText(route.getLength());
 
         Picasso.with(context).load(pictureLink).placeholder(android.R.drawable.ic_btn_speak_now).into(holder.picture);
-
-
-
 
     }
 

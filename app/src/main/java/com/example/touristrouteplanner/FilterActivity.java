@@ -40,13 +40,6 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
 //    private List<Route> routeList;
 //    private RequestQueue queue;
 
-
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,9 +81,6 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
                 String tempFrom = String.valueOf(length_from.getText());
                 String tempTo = String.valueOf(length_to.getText());
 
-
-
-
                 Intent intent = new Intent(FilterActivity.this, FilterRoutes.class);
 
                 intent.putExtra("region", tempRegion);
@@ -99,18 +89,12 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
                 intent.putExtra("lengthFrom", tempFrom);
                 intent.putExtra("lengthTo", tempTo);
 
-
-
                 startActivity(intent);
 
 
             }
         });
-
-
     }
-
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

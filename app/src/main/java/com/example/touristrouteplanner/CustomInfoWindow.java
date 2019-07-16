@@ -35,8 +35,6 @@ public class CustomInfoWindow implements GoogleMap.InfoWindowAdapter {
         TextView region = view.findViewById(R.id.routeRegionSnipped);
         region.setText(marker.getSnippet());
 
-
-
         return view;
     }
 }

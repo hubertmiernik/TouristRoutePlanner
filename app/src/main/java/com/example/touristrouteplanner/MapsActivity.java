@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.touristrouteplanner.model.Route;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -265,6 +266,103 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         queue.add(jsonObjectRequest);
     }
+
+//    public void getRoutes(){
+//
+//        final Route route = new Route();
+//
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Const.URL_ROUTES, null, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//
+//                try {
+//                    JSONArray routes = response.getJSONArray("routes");
+//
+//                    for (int i=0; i<routes.length(); i++){
+//
+//                        JSONObject routesObject = routes.getJSONObject(i);
+//
+//                        // Log.d("Longitude", routesObject.getString("longitude"));
+//
+//                        double lon = Double.valueOf(routesObject.getString("longitude"));
+//                        double lat = Double.valueOf(routesObject.getString("latitude"));
+//
+//                        double lonEnd = Double.valueOf(routesObject.getString("endlongitude"));
+//                        double latEnd = Double.valueOf(routesObject.getString("endlatitude"));
+//
+//
+//
+//                        route.setName(routesObject.getString("name"));
+//                        route.setDescription(routesObject.getString("description"));
+//                        route.setLongitude(routesObject.getString("longitude"));
+//                        route.setLatitude(routesObject.getString("latitude"));
+//                        route.setRegion(routesObject.getString("region"));
+//
+//                        route.setEndLatitude(routesObject.getString("endlatitude"));
+//                        route.setEndLongitude(routesObject.getString("endlongitude"));
+//
+//
+//
+//                        //Log.d("Coordinates", lon + " " + lat);
+//
+//
+//
+//                        MarkerOptions markersBeggin = new MarkerOptions();
+//                        markersBeggin.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+//                        markersBeggin.title("Początek trasy " + "\""+ route.getName() + "\"");
+//                        markersBeggin.position(new LatLng(lat, lon));
+//                        markersBeggin.snippet("Wojewdztwo: " + route.getRegion()
+////                                + "\n" +
+////                                "Długość geograficzna: " + route.getLongitude() + "\n" +
+////                                "Szerokość geograficzna " + route.getLatitude()
+//                        );
+//
+//
+//
+//
+//                        Marker marker = mMap.addMarker(markersBeggin);
+//                        marker.setTag(route.getDescription());
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.078776, 19.406949), (float) 5.5));
+//
+//
+//
+//                        MarkerOptions markersEnd = new MarkerOptions();
+//
+//                        markersEnd.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//                        markersEnd.title("Koniec trasy " + "\""+ route.getName() + "\"");
+//                        markersEnd.position(new LatLng(latEnd, lonEnd));
+//                        markersEnd.snippet("Wojewdztwo: " + route.getRegion()
+////                                + "\n" +
+////                                "Długość geograficzna: " + route.getLongitude() + "\n" +
+////                                "Szerokość geograficzna " + route.getLatitude()
+//                        );
+//
+//
+//                        Marker markerEnd = mMap.addMarker(markersEnd);
+//
+//                        markerEnd.setTag(route.getDescription());
+//
+//
+//
+//
+//
+//                    }
+//
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        });
+//
+//        queue.add(jsonObjectRequest);
+//    }
 
     public void getMoreDetails(String desc){
 

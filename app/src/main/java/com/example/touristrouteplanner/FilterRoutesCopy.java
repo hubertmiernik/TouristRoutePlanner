@@ -13,17 +13,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.touristrouteplanner.model.Route;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class FilterRoutes extends AppCompatActivity {
+public class FilterRoutesCopy extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
     private FilterRecyclerViewAdapter filterRecyclerViewAdapter;
+    private List<Route> routeList;
 
 
     @Override
@@ -39,17 +43,23 @@ public class FilterRoutes extends AppCompatActivity {
         String lengthFrom = getIntent().getStringExtra("lengthFrom");
         String lengthTo = getIntent().getStringExtra("lengthTo");
 
+
+
+        routeList = new ArrayList<>();
+        routeList = getFilterRoutes(region, difficulty, lengthFrom, lengthTo);
+        System.out.println(routeList.toString());
+
+
         recyclerView = findViewById(R.id.filterRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        filterRecyclerViewAdapter = new FilterRecyclerViewAdapter(this);
+        filterRecyclerViewAdapter = new FilterRecyclerViewAdapter(this, routeList);
         recyclerView.setAdapter(filterRecyclerViewAdapter);
-
-        getFilterRoutes(region, difficulty, lengthFrom, lengthTo);
+        filterRecyclerViewAdapter.notifyDataSetChanged();
 
     }
 
-    private void getFilterRoutes(final String region, final String difficulty, final String lengthFrom, final String lengthTo) {
+    private List<Route> getFilterRoutes(final String region, final String difficulty, final String lengthFrom, final String lengthTo) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_FILTER,
@@ -57,24 +67,68 @@ public class FilterRoutes extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            routeList = Common.getInstance().getRoutesFromJSONResponse(response);
+
+
                             filterRecyclerViewAdapter.setRouteList(
                                     Common.getInstance()
                                             .getRoutesFromJSONResponse(response));
 
+//                            filterRecyclerViewAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(FilterRoutes.this,
+                            Toast.makeText(FilterRoutesCopy.this,
                                     "Error "+e.toString(),
                                     Toast.LENGTH_SHORT)
                                     .show();
                         }
 
+
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(response);
+//                            JSONArray jsonArray = jsonObject.getJSONArray("routes");
+//
+//
+//                            for (int i=0; i<jsonArray.length(); i++){
+//
+//                                JSONObject object = jsonArray.getJSONObject(i);
+//
+//
+//                                Route route = new Route();
+//                                route.setName(object.getString("name"));
+//                                route.setRegion(object.getString("region"));
+//                                route.setLongitude(object.getString("longitude"));
+//                                route.setLatitude(object.getString("latitude"));
+//                                route.setEndLongitude(object.getString("endlongitude"));
+//                                route.setEndLatitude(object.getString("endlatitude"));
+//                                route.setDifficulty(object.getString("difficulty"));
+//                                route.setLength(object.getString("length"));
+//                                route.setPicture(object.getString("picture"));
+//                                route.setDescription(object.getString("description"));
+//
+//
+//                                Log.d("trasa: ", object.getString("name"));
+//                                Log.d("trudnosc: ", object.getString("difficulty"));
+//
+//
+//                                routeList.add(route);
+//
+//                            }
+//
+//                              filterRecyclerViewAdapter.notifyDataSetChanged();
+//
+//
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            Toast.makeText(FilterRoutes.this, "Error "+e.toString(), Toast.LENGTH_SHORT).show();
+//                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(FilterRoutes.this, "Error "+error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FilterRoutesCopy.this, "Error "+error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 })
@@ -91,5 +145,10 @@ public class FilterRoutes extends AppCompatActivity {
         };
 
         queue.add(stringRequest);
+        return routeList;
+
+
+
+
     }
 }

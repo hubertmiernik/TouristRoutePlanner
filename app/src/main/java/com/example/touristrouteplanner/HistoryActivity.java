@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -16,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.touristrouteplanner.model.Route;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,12 +77,9 @@ public class HistoryActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("routes");
 
-
-
                             for (int i=0; i<jsonArray.length(); i++){
 
                                 JSONObject object = jsonArray.getJSONObject(i);
-
 
                                 Route route = new Route();
                                 route.setName(object.getString("name"));
@@ -98,7 +94,6 @@ public class HistoryActivity extends AppCompatActivity {
 
                                 Log.d("trasa: ", object.getString("name"));
                                 Log.d("trudnosc: ", object.getString("difficulty"));
-
 
                                 routeList.add(route);
 

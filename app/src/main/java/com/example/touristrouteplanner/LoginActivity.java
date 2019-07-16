@@ -1,8 +1,11 @@
 package com.example.touristrouteplanner;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         btn_login = findViewById(R.id.btn_login);
         link_regist = findViewById(R.id.link_regist);
 
+
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,8 +60,21 @@ public class LoginActivity extends AppCompatActivity {
                 if (!mEmail.isEmpty() || !mPass.isEmpty()){
                     Login(mEmail, mPass);
                 } else {
-                    email.setError("Podaj email");
-                    password.setError("Podaj haslo");
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
+                    builder1.setTitle("Opss!");
+                    builder1.setMessage("Testowy alert dialog");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
                 }
 
 
@@ -83,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
+
                             String success = jsonObject.getString("success");
                             JSONArray jsonArray = jsonObject.getJSONArray("login");
 
@@ -109,14 +128,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(LoginActivity.this, "Error "+e.toString(), Toast.LENGTH_SHORT);
+                            Toast.makeText(LoginActivity.this, "Error "+e.toString(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(LoginActivity.this, "Error "+error.toString(), Toast.LENGTH_SHORT);
+                        Toast.makeText(LoginActivity.this, "Error "+error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 })

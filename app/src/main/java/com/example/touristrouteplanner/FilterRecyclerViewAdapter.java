@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.touristrouteplanner.model.Route;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecyclerViewAdapter.ViewHolder>{
@@ -25,6 +27,15 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
         routeList = routes;
     }
 
+    public FilterRecyclerViewAdapter(Context context) {
+        this.context = context;
+        routeList = new ArrayList<>();
+    }
+
+    public void setRouteList(List<Route> routeList) {
+        this.routeList = routeList;
+        notifyDataSetChanged();
+    }
 
     @Override
     public FilterRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

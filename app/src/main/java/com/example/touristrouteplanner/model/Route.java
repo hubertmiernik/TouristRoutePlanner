@@ -1,4 +1,4 @@
-package com.example.touristrouteplanner;
+package com.example.touristrouteplanner.model;
 
 import com.android.volley.toolbox.StringRequest;
 
@@ -18,9 +18,9 @@ public class Route implements Serializable {
     private String endLatitude;
     private String endLongitude;
     private String length;
-    private String distance;
-    private String duration;
-
+    private String distance = null;
+    private String duration =  null;
+    private Double distanceFromPoint;
 
     public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, String length, String distance, String duration) {
         this.name = name;
@@ -35,6 +35,33 @@ public class Route implements Serializable {
         this.length = length;
         this.distance = distance;
         this.duration = duration;
+    }
+
+    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, String length, Double distanceFromPoint) {
+        this.name = name;
+        this.description = description;
+        this.region = region;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.picture = picture;
+        this.difficulty = difficulty;
+        this.endLatitude = endLatitude;
+        this.endLongitude = endLongitude;
+        this.length = length;
+        this.distanceFromPoint = distanceFromPoint;
+    }
+
+    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, String length) {
+        this.name = name;
+        this.description = description;
+        this.region = region;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.picture = picture;
+        this.difficulty = difficulty;
+        this.endLatitude = endLatitude;
+        this.endLongitude = endLongitude;
+        this.length = length;
     }
 
 
@@ -135,6 +162,22 @@ public class Route implements Serializable {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public Double getDistanceFromPoint() {
+        return distanceFromPoint;
+    }
+
+    public void setDistanceFromPoint(Double distanceFromPoint) {
+        this.distanceFromPoint = distanceFromPoint;
+    }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "name='" + name + '\'' +
+                ", distanceFromPoint=" + distanceFromPoint +
+                '}';
     }
 
 
