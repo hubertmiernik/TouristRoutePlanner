@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:gravity="center"
-        android:text="Welcome!"
+        android:text="Witaj"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -31,10 +31,51 @@
         android:textSize="15sp"
         android:gravity="center"
         android:textStyle="bold"
-        android:text="Email!"
+        android:text="Jesteś tutaj:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapViewMain"
+        android:layout_marginLeft="10dp"
+        android:layout_width="390dp"
+        android:layout_height="208dp"
+        android:layout_below="@+id/email">
+    </com.google.android.gms.maps.MapView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nearText"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="Najbliższa trasa turystyczna to:"
+        android:layout_below="@+id/mapViewMain"/>
+
+    <TextView
+        android:id="@+id/nearRoute"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="Trasa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nearText"/>
+
+    <Button
+        android:id="@+id/btnGetNearRoute"
+        android:text="pokaż trasę"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nearRoute"/>
+
+    <Button
+        android:id="@+id/btnGetAllRoutes"
+        android:text="pokaż wszystkie trasy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnGetNearRoute"/>
 
 
 </RelativeLayout>

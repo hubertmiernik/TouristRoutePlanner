@@ -1,6 +1,8 @@
 package com.example.touristrouteplanner;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -46,7 +48,30 @@ public class RegisterActivity extends AppCompatActivity {
         btn_regist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Regist();
+                String mEmail = email.getText().toString().trim();
+                String mPass = password.getText().toString().trim();
+                String mName = name.getText().toString().trim();
+
+
+                if (!mEmail.isEmpty() && !mPass.isEmpty() && !mName.isEmpty()){
+                    Regist();
+                } else {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(RegisterActivity.this);
+                    builder1.setTitle("Opss!");
+                    builder1.setMessage("Pole imię, email lub hasło nie może być puste!");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
 
             }
         });

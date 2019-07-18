@@ -57,12 +57,12 @@ public class LoginActivity extends AppCompatActivity {
                 String mEmail = email.getText().toString().trim();
                 String mPass = password.getText().toString().trim();
 
-                if (!mEmail.isEmpty() || !mPass.isEmpty()){
+                if (!mEmail.isEmpty() && !mPass.isEmpty()){
                     Login(mEmail, mPass);
                 } else {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
                     builder1.setTitle("Opss!");
-                    builder1.setMessage("Testowy alert dialog");
+                    builder1.setMessage("Pole email lub hasło nie może być puste!");
                     builder1.setCancelable(true);
 
                     builder1.setPositiveButton(

@@ -1,8 +1,11 @@
 package com.example.touristrouteplanner;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,7 +20,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -27,25 +34,45 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.touristrouteplanner.model.Route;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     private DrawerLayout drawer;
-    public TextView nameNav, emailNav;
+    public TextView nameNav, emailNav, nearRoute;
+    public Button nearbyButton, allRoutesButton;
     SessionManager sessionManager;
     public RequestQueue queue;
+
+    public Context context;
+
 
     private LocationManager locationManager;
     private LocationListener locationListener;
 
     private String locationTestLat;
     private String locationTestLon;
+
+    private MapView mMapView;
+    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+
+    public String test ="";
 
 
     @Override
@@ -63,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        initGoogleMap(savedInstanceState);
+
 
 
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
@@ -124,11 +154,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String mEmail = user.get(sessionManager.EMAIL);
 
         nameNav.setText(mName);
-        emailNav.setText(mEmail);
+//        emailNav.setText(mEmail);
 
         queue = Volley.newRequestQueue(this);
         getNearbyRoute();
 
+
+
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        double longitude = Double.valueOf(locationTestLon);
+        double latitude = Double.valueOf(locationTestLat);
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            String city = addresses.get(0).getLocality();
+            String state = addresses.get(0).getAdminArea();
+            String country = addresses.get(0).getCountryName();
+            String postalCode = addresses.get(0).getPostalCode();
+            System.out.println("MIASTO " + city +
+                                "\n ADRES " + address +
+                                "\n WOJEWODZTWO " + state +
+                                "\n KRAJ " + country +
+                                "\n KOD " + postalCode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        allRoutesButton = findViewById(R.id.btnGetAllRoutes);
+
+        allRoutesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent2 = new Intent(MainActivity.this, RoutesActivity.class);
+                startActivity(intent2);
+
+            }
+        });
 
 
 
@@ -200,8 +266,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     System.out.println("NEARBY ROUTE: ");
                     assert nearbyRoute != null;
+                    Common.getInstance().setNearbyRoute(nearbyRoute);
                     System.out.println(nearbyRoute.toString());
 
+
+                    System.out.println("NAZWA " + nearbyRoute.getName());
+                    System.out.println("WOJEWODZTWO " + nearbyRoute.getRegion());
+
+
+                    nearRoute = findViewById(R.id.nearRoute);
+                    nearRoute.setText(nearbyRoute.getName());
+
+                    test = nearbyRoute.getLatitude();
+                    System.out.println("TEST W OBREBIE METODY" + test);
+
+                    nearbyButton = findViewById(R.id.btnGetNearRoute);
+
+                    System.out.println("MAP FROM COMMON: " + Common.getInstance().getNearbyRoute().getName());
+
+                    final Route finalNearbyRoute = nearbyRoute;
+                    nearbyButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(MainActivity.this, RouteDetailActivity.class);
+                            intent.putExtra("route", finalNearbyRoute);
+                            startActivity(intent);
+
+
+
+                        }
+                    });
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -267,6 +361,123 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void callSOS() {
         startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "112", null)));
     }
+
+
+
+
+        private void initGoogleMap(Bundle savedInstanceState){
+
+            // *** IMPORTANT ***
+            // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
+            // objects or sub-Bundles.
+            Bundle mapViewBundle = null;
+            if (savedInstanceState != null) {
+                mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+            }
+            mMapView = findViewById(R.id.mapViewMain);
+            mMapView.onCreate(mapViewBundle);
+
+            mMapView.getMapAsync((OnMapReadyCallback) this);
+
+        }
+
+        @Override
+        public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+
+            Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+            if (mapViewBundle == null) {
+                mapViewBundle = new Bundle();
+                outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
+            }
+
+            mMapView.onSaveInstanceState(mapViewBundle);
+        }
+
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            mMapView.onResume();
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            mMapView.onStart();
+        }
+
+        @Override
+        public void onStop() {
+            super.onStop();
+            mMapView.onStop();
+        }
+
+        @Override
+        public void onMapReady(GoogleMap map) {
+
+
+
+            Double doubleLatitude = Double.valueOf(locationTestLat);
+            Double doubleLongitude = Double.valueOf(locationTestLon);
+
+            System.out.println("TEST LAAT" + test);
+
+
+
+
+
+            Marker m1 = map.addMarker(new MarkerOptions()
+                    .position(new LatLng(doubleLatitude, doubleLongitude))
+                    .title("Jestes tutaj")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+
+            System.out.println("HELLO FROM MAP READY!");
+
+//            while (true) {
+//                if (Common.getInstance().getNearbyRoute() != null) {
+//                    System.out.println("MAP READY: " +Common.getInstance().getNearbyRoute().getName());
+//                    break;
+//                }
+//                try {
+//                    Thread.sleep(500);
+//                    System.out.println("Sleep 500 millis");
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+
+
+
+           map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(doubleLatitude,doubleLongitude), 5));
+
+
+
+        }
+
+
+        @Override
+        public void onPause() {
+            mMapView.onPause();
+            super.onPause();
+        }
+
+        @Override
+        public void onDestroy() {
+            mMapView.onDestroy();
+            super.onDestroy();
+        }
+
+        @Override
+        public void onLowMemory() {
+            super.onLowMemory();
+            mMapView.onLowMemory();
+        }
+
+
+
+
 
 
 

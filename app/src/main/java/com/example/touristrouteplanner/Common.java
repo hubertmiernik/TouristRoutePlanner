@@ -12,13 +12,26 @@ import java.util.ArrayList;
 
 public class Common {
     private static final Common ourInstance = new Common();
+    private Route nearbyRoute;
 
     public static Common getInstance() {
         return ourInstance;
     }
 
     private Common() {
+        nearbyRoute = new Route();
+    }
 
+    public static Common getOurInstance() {
+        return ourInstance;
+    }
+
+    public Route getNearbyRoute() {
+        return nearbyRoute;
+    }
+
+    public void setNearbyRoute(Route nearbyRoute) {
+        this.nearbyRoute = nearbyRoute;
     }
 
     public ArrayList<Route> getRoutesFromJSONResponse(String response) throws JSONException {
