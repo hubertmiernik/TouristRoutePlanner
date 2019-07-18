@@ -105,7 +105,9 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
         length.setText(routeLength);
         endLatitude.setText(routeEndLatitude);
         endLongitude.setText(routeEndLongitude);
-        Picasso.with(context).load(routePicture).placeholder(android.R.drawable.ic_btn_speak_now).into(routeImage);
+
+
+        Picasso.with(RouteDetailActivity.this).load(routePicture).placeholder(android.R.drawable.ic_btn_speak_now).into(routeImage);
 
         initGoogleMap(savedInstanceState);
 

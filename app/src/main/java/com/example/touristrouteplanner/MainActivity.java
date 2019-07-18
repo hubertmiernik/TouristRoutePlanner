@@ -46,6 +46,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        initGoogleMap(savedInstanceState);
+
 
 
 
@@ -147,14 +148,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sessionManager.checkLogin();
 
         nameNav = findViewById(R.id.name);
-        emailNav = findViewById(R.id.email);
+//        emailNav = findViewById(R.id.email);
 
         HashMap<String, String> user = sessionManager.getUserDetail();
         String mName = user.get(sessionManager.NAME);
-        String mEmail = user.get(sessionManager.EMAIL);
 
-        nameNav.setText(mName);
+
+//        String mEmail = user.get(sessionManager.EMAIL);
 //        emailNav.setText(mEmail);
+        nameNav.setText(mName);
+
 
         queue = Volley.newRequestQueue(this);
         getNearbyRoute();
@@ -195,6 +198,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+        initGoogleMap(savedInstanceState);
 
 
 
@@ -312,7 +317,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         queue.add(jsonObjectRequest);
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
@@ -348,6 +352,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        TextView emailNavigationMenu = findViewById(R.id.emailNav3);
+        sessionManager = new SessionManager(this);
+        sessionManager.checkLogin();
+
+        HashMap<String, String> user = sessionManager.getUserDetail();
+        emailNavigationMenu.setText(user.get(sessionManager.EMAIL));
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public void onBackPressed() {
@@ -418,8 +433,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-            Double doubleLatitude = Double.valueOf(locationTestLat);
-            Double doubleLongitude = Double.valueOf(locationTestLon);
+            double doubleLatitude = Double.parseDouble(locationTestLat);
+            double doubleLongitude = Double.parseDouble(locationTestLon);
 
             System.out.println("TEST LAAT" + test);
 
@@ -427,28 +442,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-            Marker m1 = map.addMarker(new MarkerOptions()
+            map.addMarker(new MarkerOptions()
                     .position(new LatLng(doubleLatitude, doubleLongitude))
                     .title("Jestes tutaj")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
 
             System.out.println("HELLO FROM MAP READY!");
+            if (Common.getInstance().getNearbyRoute() != null) {
+                Route nearbyRoute = Common.getInstance().getNearbyRoute();
+                double nerLat = Double.parseDouble(nearbyRoute.getLatitude());
+                double nerLon = Double.parseDouble(nearbyRoute.getLongitude());
 
-//            while (true) {
-//                if (Common.getInstance().getNearbyRoute() != null) {
-//                    System.out.println("MAP READY: " +Common.getInstance().getNearbyRoute().getName());
-//                    break;
-//                }
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println("Sleep 500 millis");
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+                map.addMarker(new MarkerOptions()
+                        .position(new LatLng(nerLat, nerLon))
+                        .title(nearbyRoute.getName())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
-
+            }
 
            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(doubleLatitude,doubleLongitude), 5));
 
