@@ -140,9 +140,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             return;
         }
+
+
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        locationTestLat = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES);
-        locationTestLon = Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
+        if (location != null) {
+            locationTestLat = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES);
+            locationTestLon = Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
+        } else  {
+            locationTestLat = "0.0";
+            locationTestLon = "0.0";
+        }
+
 
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
@@ -164,27 +172,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(this, Locale.getDefault());
-
-        double longitude = Double.valueOf(locationTestLon);
-        double latitude = Double.valueOf(locationTestLat);
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-            String postalCode = addresses.get(0).getPostalCode();
-            System.out.println("MIASTO " + city +
-                                "\n ADRES " + address +
-                                "\n WOJEWODZTWO " + state +
-                                "\n KRAJ " + country +
-                                "\n KOD " + postalCode);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
         allRoutesButton = findViewById(R.id.btnGetAllRoutes);
@@ -438,14 +425,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             System.out.println("TEST LAAT" + test);
 
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(this, Locale.getDefault());
+
+            double longitude = Double.valueOf(locationTestLon);
+            double latitude = Double.valueOf(locationTestLat);
+            try {
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                String address = addresses.get(0).getAddressLine(0);
+                String city = addresses.get(0).getLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
+//                System.out.println("MIASTO " + city +
+//                        "\n ADRES " + address +
+//                        "\n WOJEWODZTWO " + state +
+//                        "\n KRAJ " + country +
+//                        "\n KOD " + postalCode);
+
+
+                map.addMarker(new MarkerOptions()
+                        .position(new LatLng(doubleLatitude, doubleLongitude))
+                        .title("Jestes tutaj")
+                        .snippet("Miasto " + city)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
 
 
-            map.addMarker(new MarkerOptions()
-                    .position(new LatLng(doubleLatitude, doubleLongitude))
-                    .title("Jestes tutaj")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+
+
 
 
             System.out.println("HELLO FROM MAP READY!");
@@ -462,7 +479,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(doubleLatitude,doubleLongitude), 5));
-
 
 
         }

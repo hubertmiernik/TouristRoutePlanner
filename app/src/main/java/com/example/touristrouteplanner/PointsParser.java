@@ -69,7 +69,12 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
             if (directionMode.equalsIgnoreCase("walking")) {
                 lineOptions.width(10);
                 lineOptions.color(Color.RED);
-            } else {
+            }
+            else if(directionMode.equalsIgnoreCase("bicycling")){
+                lineOptions.width(10);
+                lineOptions.color(Color.GREEN);
+            }
+            else {
                 lineOptions.width(10);
                 lineOptions.color(Color.BLUE);
             }

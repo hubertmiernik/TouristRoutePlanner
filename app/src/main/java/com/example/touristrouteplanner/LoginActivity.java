@@ -125,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
 
                             }
 
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(LoginActivity.this, "Error "+e.toString(), Toast.LENGTH_SHORT).show();

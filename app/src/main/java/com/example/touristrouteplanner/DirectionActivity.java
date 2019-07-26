@@ -2,6 +2,7 @@ package com.example.touristrouteplanner;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +37,7 @@ import java.util.List;
 public class DirectionActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback {
 
     GoogleMap map;
-    Button btnGetDirection, btnGetDirectionWalking;
+    FloatingActionButton btnGetDirection, btnGetDirectionWalking, btnGetDirectionBicycling;
     MarkerOptions place1, place2;
     Polyline currentPolyline;
 
@@ -53,6 +54,8 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
 
     private List<Route> routeDetailsWalking;
     private List<Route> routeDetailsDriving;
+    private List<Route> routeDetailsBicycling;
+
 
     SessionManager sessionManager;
 
@@ -72,6 +75,8 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
 
         btnGetDirection = findViewById(R.id.btnGetDirection);
         btnGetDirectionWalking = findViewById(R.id.btnGetDirectionWalking);
+        btnGetDirectionBicycling = findViewById(R.id.btnGetDirectionBicycling);
+
 
         distance = findViewById(R.id.distance);
         duration = findViewById(R.id.duration);
@@ -131,11 +136,31 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
             }
         });
 
+        btnGetDirectionBicycling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = getUrl(place1.getPosition(), place2.getPosition(), "bicycling");
+                new FetchUrl(DirectionActivity.this).execute(url, "bicycling");
+                getDistanceWalking();
+
+                Route route = routeDetailsBicycling.get(0);
+
+                distance.setText(route.getDistance());
+                duration.setText(route.getDuration());
+
+
+            }
+        });
+
+
         routeDetailsWalking = new ArrayList<>();
         routeDetailsWalking = getDistanceWalking();
 
         routeDetailsDriving = new ArrayList<>();
         routeDetailsDriving = getDistanceDriving();
+
+        routeDetailsBicycling = new ArrayList<>();
+        routeDetailsBicycling = getDistanceBicycling();
 
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
@@ -320,6 +345,68 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
 
 
     }
+
+    public List<Route> getDistanceBicycling(){
+
+        Double doubleLatitude = Double.valueOf(routeLatitude);
+        Double doubleLongitude = Double.valueOf(routeLongitude);
+
+        Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
+        Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
+
+        String URL = "https://maps.googleapis.com/maps/api/directions/json?origin="+doubleLatitude+","+doubleLongitude +
+                "&destination="+doubleEndLatitude+","+doubleEndLongitude+"&mode=bicycling&key="+ getString(R.string.google_maps_key);
+
+        // System.out.println("TEST TEST" + URL);
+        queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    JSONArray routesArray = response.getJSONArray("routes");
+                    JSONObject routesJSONObjct = routesArray.getJSONObject(0);
+
+                    JSONArray legsArray = routesJSONObjct.getJSONArray("legs");
+
+                    JSONObject distanceObj = legsArray.getJSONObject(0);
+                    JSONObject durationObj = legsArray.getJSONObject(0);
+
+
+                    JSONObject distance = distanceObj.getJSONObject("distance");
+                    JSONObject duration = durationObj.getJSONObject("duration");
+
+
+                    Route route = new Route();
+                    route.setDistance(distance.getString("text"));
+                    route.setDuration(duration.getString("text"));
+
+
+                    Log.d("DETAIL DRIVING distance", route.getDistance());
+                    Log.d("DETAIL DRIVING duration", route.getDuration());
+
+                    routeDetailsBicycling.add(route);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(jsonObjectRequest);
+        return routeDetailsBicycling;
+
+
+    }
+
 
 
 

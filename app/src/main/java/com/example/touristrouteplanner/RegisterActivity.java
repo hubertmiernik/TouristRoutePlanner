@@ -88,6 +88,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    private void checkEmail(){
+
+
+    }
+
 
     private void Regist(){
 
@@ -95,12 +100,6 @@ public class RegisterActivity extends AppCompatActivity {
         final String name = this.name.getText().toString().trim();
         final String email = this.email.getText().toString().trim();
         final String password = this.password.getText().toString().trim();
-
-//        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-//            Toast.makeText(RegisterActivity.this, "Podaj dane!", Toast.LENGTH_SHORT).show();
-//        }
-
-
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_REGIST,
                 new Response.Listener<String>() {
