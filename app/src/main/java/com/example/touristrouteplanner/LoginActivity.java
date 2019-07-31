@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     Login(mEmail, mPass);
                 } else {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
-                    builder1.setTitle("Opss!");
+                    builder1.setTitle("Błąd!");
                     builder1.setMessage("Pole email lub hasło nie może być puste!");
                     builder1.setCancelable(true);
 
@@ -92,23 +92,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void Login(final String email, final String password) {
-
-        btn_login.setVisibility(View.GONE);
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_LOGIN,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-
                             String success = jsonObject.getString("success");
                             JSONArray jsonArray = jsonObject.getJSONArray("login");
 
                             if (success.equals("1")){
-
                                 for (int i=0; i<jsonArray.length(); i++){
-
                                     JSONObject object = jsonArray.getJSONObject(i);
 
                                     String name = object.getString("name").trim();
@@ -120,14 +114,24 @@ public class LoginActivity extends AppCompatActivity {
                                     intent.putExtra("name", name);
                                     intent.putExtra("email", email);
                                     startActivity(intent);
-
                                 }
-
                             }
-
-                        } catch (JSONException e) {
+                        }
+                        catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(LoginActivity.this, "Error "+e.toString(), Toast.LENGTH_SHORT).show();
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
+                            builder1.setTitle("Błąd!");
+                            builder1.setMessage("Nie istnieje użytkownik o podanym adresie email lub hasło jest nieprawidłowe!");
+                            builder1.setCancelable(true);
+                            builder1.setPositiveButton(
+                                    "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alert11 = builder1.create();
+                            alert11.show();
                         }
                     }
                 },
@@ -135,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(LoginActivity.this, "Error "+error.toString(), Toast.LENGTH_SHORT).show();
-
                     }
                 })
         {
@@ -147,10 +150,8 @@ public class LoginActivity extends AppCompatActivity {
                 return params;
             }
         };
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-
     }
 }
 

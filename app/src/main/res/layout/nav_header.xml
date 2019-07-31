@@ -3,24 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="176dp"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/backgroundSideBar"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="16dp"
-    android:paddingTop="16dp"
+    android:paddingTop="14dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Navigation header"
-        android:paddingTop="8dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        android:src="@drawable/direction" />
 
     <TextView
+        android:textColor="@color/colorTextBlack"
         android:id="@+id/emailNav3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

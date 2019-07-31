@@ -188,7 +188,7 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
         Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
         Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((doubleLatitude+doubleEndLatitude)/2,(doubleLongitude+doubleEndLongitude)/2), 8));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((doubleLatitude+doubleEndLatitude)/2,(doubleLongitude+doubleEndLongitude)/2), 6));
     }
 
 

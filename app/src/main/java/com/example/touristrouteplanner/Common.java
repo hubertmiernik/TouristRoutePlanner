@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Common {
     private static final Common ourInstance = new Common();
     private Route nearbyRoute;
+    private Route route;
 
     public static Common getInstance() {
         return ourInstance;
@@ -20,6 +21,7 @@ public class Common {
 
     private Common() {
         nearbyRoute = new Route();
+        route = new Route();
     }
 
     public static Common getOurInstance() {
@@ -28,6 +30,10 @@ public class Common {
 
     public Route getNearbyRoute() {
         return nearbyRoute;
+    }
+
+    public Route getRoute(){
+        return route;
     }
 
     public void setNearbyRoute(Route nearbyRoute) {
@@ -44,8 +50,31 @@ public class Common {
 
             JSONObject object = jsonArray.getJSONObject(i);
 
-            Log.d("trasa: ", object.getString("name"));
-            Log.d("trudnosc: ", object.getString("difficulty"));
+            result.add(
+                    new Route(
+                            object.getString("name"),
+                            object.getString("description"),
+                            object.getString("region"),
+                            object.getString("latitude"),
+                            object.getString("longitude"),
+                            object.getString("picture"),
+                            object.getString("difficulty"),
+                            object.getString("endlatitude"),
+                            object.getString("endlongitude"),
+                            object.getString("length"))
+            );
+        }
+        return result;
+    }
+
+    public ArrayList<Route> getRoutesFromJSONResponse(JSONObject response) throws JSONException {
+        ArrayList<Route> result = new ArrayList<>();
+        JSONArray jsonArray = response.getJSONArray("routes");
+
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+
+            JSONObject object = jsonArray.getJSONObject(i);
 
             result.add(
                     new Route(

@@ -1,6 +1,7 @@
 package com.example.touristrouteplanner;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.touristrouteplanner.model.Route;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecyclerViewAdapter.ViewHolder>{
@@ -24,6 +26,17 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         this.context = context;
         routeList = routes;
     }
+
+    public HistoryRecyclerViewAdapter(Context context) {
+        this.context = context;
+        routeList = new ArrayList<>();
+    }
+
+    public void setRouteList(List<Route> routeList) {
+        this.routeList = routeList;
+        notifyDataSetChanged();
+    }
+
 
 
     @Override
@@ -75,16 +88,16 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
             length =  itemView.findViewById(R.id.routeLengthID2);
             picture = itemView.findViewById(R.id.routeImageID2);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    Route route = routeList.get(getAdapterPosition());
-//                    Intent intent = new Intent(context, DirectionActivity.class);
-//                    intent.putExtra("route", route);
-//                    ctx.startActivity(intent);
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Route route = routeList.get(getAdapterPosition());
+                    Intent intent = new Intent(context, RouteDetailActivity.class);
+                    intent.putExtra("route", route);
+                    ctx.startActivity(intent);
+                }
+            });
 
         }
 

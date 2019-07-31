@@ -52,21 +52,17 @@ public class HistoryActivity extends AppCompatActivity {
         HashMap<String, String> user = sessionManager.getUserDetail();
         String email = user.get(sessionManager.EMAIL);
 
-        routeList = new ArrayList<>();
-        routeList = getFilterRoutes(email);
-        System.out.println(routeList.toString());
-
-
         recyclerView = findViewById(R.id.historyRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(this, routeList);
+        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(this);
         recyclerView.setAdapter(historyRecyclerViewAdapter);
-        historyRecyclerViewAdapter.notifyDataSetChanged();
+
+        getFilterRoutes(email);
 
     }
 
-    private List<Route> getFilterRoutes(final String email) {
+    private void getFilterRoutes(final String email) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_HISTORY,
@@ -74,45 +70,23 @@ public class HistoryActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArray = jsonObject.getJSONArray("routes");
-
-                            for (int i=0; i<jsonArray.length(); i++){
-
-                                JSONObject object = jsonArray.getJSONObject(i);
-
-                                Route route = new Route();
-                                route.setName(object.getString("name"));
-                                route.setRegion(object.getString("region"));
-                                route.setLongitude(object.getString("longitude"));
-                                route.setLatitude(object.getString("latitude"));
-                                route.setEndLongitude(object.getString("endlongitude"));
-                                route.setEndLatitude(object.getString("endlatitude"));
-                                route.setPicture(object.getString("picture"));
-                                route.setDifficulty(object.getString("difficulty"));
-                                route.setLength(object.getString("length"));
-
-                                Log.d("trasa: ", object.getString("name"));
-                                Log.d("trudnosc: ", object.getString("difficulty"));
-
-                                routeList.add(route);
-
-                            }
-
-                            historyRecyclerViewAdapter.notifyDataSetChanged();
-
-
+                            historyRecyclerViewAdapter.setRouteList(
+                                    Common.getInstance()
+                                            .getRoutesFromJSONResponse(response));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(HistoryActivity.this, "Error "+e.toString(), Toast.LENGTH_SHORT);
+                            Toast.makeText(HistoryActivity.this,
+                                    "Error "+e.toString(),
+                                    Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(HistoryActivity.this, "Error "+error.toString(), Toast.LENGTH_SHORT);
+                        Toast.makeText(HistoryActivity.this, "Error "+error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 })
@@ -126,7 +100,6 @@ public class HistoryActivity extends AppCompatActivity {
         };
 
         queue.add(stringRequest);
-        return routeList;
 
 
 

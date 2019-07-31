@@ -21,7 +21,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,13 +39,11 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -56,7 +53,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     private DrawerLayout drawer;
-    public TextView nameNav, emailNav, nearRoute;
+    public TextView nameNav, nearRoute;
     public Button nearbyButton, allRoutesButton;
     SessionManager sessionManager;
     public RequestQueue queue;
@@ -67,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LocationManager locationManager;
     private LocationListener locationListener;
 
-    private String locationTestLat;
-    private String locationTestLon;
+    private String currentLatitude;
+    private String currentLongitude;
 
     private MapView mMapView;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
@@ -100,10 +97,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-              //  Log.d("Location ", location.toString());
 
-                locationTestLat = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES);
-                locationTestLon = Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
+                currentLatitude = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES);
+                currentLongitude = Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
 
             }
 
@@ -125,30 +121,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //uzytkownik wyraza zgode na uzywanie gps
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
-
-
             return;
         }
 
 
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (location != null) {
-            locationTestLat = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES);
-            locationTestLon = Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
+            currentLatitude = Location.convert(location.getLatitude(), Location.FORMAT_DEGREES);
+            currentLongitude = Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
         } else  {
-            locationTestLat = "0.0";
-            locationTestLon = "0.0";
+            currentLatitude = "0.0";
+            currentLongitude = "0.0";
         }
 
 
@@ -224,8 +211,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         double lat = Double.valueOf(object.getString("latitude"));
 
 
-                        double lonTest = Double.valueOf(locationTestLon);
-                        double latTest = Double.valueOf(locationTestLat);
+                        double lonTest = Double.valueOf(currentLongitude);
+                        double latTest = Double.valueOf(currentLatitude);
 
                         double distance = Math.sqrt(Math.pow((lon - lonTest), 2) + Math.pow((lat - latTest), 2))*73;
 //                        System.out.println("test lon " + lon + " lat " + lat);
@@ -264,7 +251,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     System.out.println("NAZWA " + nearbyRoute.getName());
                     System.out.println("WOJEWODZTWO " + nearbyRoute.getRegion());
-
 
                     nearRoute = findViewById(R.id.nearRoute);
                     nearRoute.setText(nearbyRoute.getName());
@@ -417,53 +403,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public void onMapReady(GoogleMap map) {
-
-
-
-            double doubleLatitude = Double.parseDouble(locationTestLat);
-            double doubleLongitude = Double.parseDouble(locationTestLon);
-
-            System.out.println("TEST LAAT" + test);
+//
+//            double doubleLatitude = Double.parseDouble(currentLatitude);
+//            double doubleLongitude = Double.parseDouble(currentLongitude);
 
             Geocoder geocoder;
             List<Address> addresses;
             geocoder = new Geocoder(this, Locale.getDefault());
 
-            double longitude = Double.valueOf(locationTestLon);
-            double latitude = Double.valueOf(locationTestLat);
+            double longitude = Double.valueOf(currentLongitude);
+            double latitude = Double.valueOf(currentLatitude);
             try {
                 addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                String address = addresses.get(0).getAddressLine(0);
                 String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-//                System.out.println("MIASTO " + city +
-//                        "\n ADRES " + address +
-//                        "\n WOJEWODZTWO " + state +
-//                        "\n KRAJ " + country +
-//                        "\n KOD " + postalCode);
-
 
                 map.addMarker(new MarkerOptions()
-                        .position(new LatLng(doubleLatitude, doubleLongitude))
-                        .title("Jestes tutaj")
+                        .position(new LatLng(latitude, longitude))
+                        .title("Jestes tutaj:")
                         .snippet("Miasto " + city)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-
-
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-
-
-
-
-
-
 
             System.out.println("HELLO FROM MAP READY!");
             if (Common.getInstance().getNearbyRoute() != null) {
@@ -478,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
 
-           map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(doubleLatitude,doubleLongitude), 5));
+           map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 5));
 
 
         }

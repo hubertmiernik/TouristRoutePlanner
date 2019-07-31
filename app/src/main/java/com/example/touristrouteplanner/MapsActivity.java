@@ -36,6 +36,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 //public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -65,16 +67,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -120,13 +112,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (Build.VERSION.SDK_INT < 23) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+
                 return;
             }
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
@@ -140,10 +126,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             } else {
 
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-//                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//                mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)).title("Hello"));
-//                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
             }
 
 
@@ -171,91 +153,47 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void getRoutes(){
-
-        final Route route = new Route();
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Const.URL_ROUTES, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
                 try {
-                    JSONArray routes = response.getJSONArray("routes");
+                    ArrayList<Route> routes =
+                            Common.getInstance().getRoutesFromJSONResponse(response);
+                    for (Route route: routes) {
+                        double lon =  Double.valueOf(route.getLongitude());
+                        double lat =  Double.valueOf(route.getLatitude());
 
-                    for (int i=0; i<routes.length(); i++){
-
-                        JSONObject routesObject = routes.getJSONObject(i);
-
-                        // Log.d("Longitude", routesObject.getString("longitude"));
-
-                        double lon = Double.valueOf(routesObject.getString("longitude"));
-                        double lat = Double.valueOf(routesObject.getString("latitude"));
-
-                        double lonEnd = Double.valueOf(routesObject.getString("endlongitude"));
-                        double latEnd = Double.valueOf(routesObject.getString("endlatitude"));
-
-
-
-                        route.setName(routesObject.getString("name"));
-                        route.setDescription(routesObject.getString("description"));
-                        route.setLongitude(routesObject.getString("longitude"));
-                        route.setLatitude(routesObject.getString("latitude"));
-                        route.setRegion(routesObject.getString("region"));
-
-                        route.setEndLatitude(routesObject.getString("endlatitude"));
-                        route.setEndLongitude(routesObject.getString("endlongitude"));
-
-
-
-                        //Log.d("Coordinates", lon + " " + lat);
-
-
+                        double lonEnd = Double.valueOf(route.getEndLongitude());
+                        double latEnd = Double.valueOf(route.getEndLatitude());
 
                         MarkerOptions markersBeggin = new MarkerOptions();
                         markersBeggin.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                         markersBeggin.title("Początek trasy " + "\""+ route.getName() + "\"");
                         markersBeggin.position(new LatLng(lat, lon));
                         markersBeggin.snippet("Wojewdztwo: " + route.getRegion()
-//                                + "\n" +
-//                                "Długość geograficzna: " + route.getLongitude() + "\n" +
-//                                "Szerokość geograficzna " + route.getLatitude()
                         );
-
-
 
 
                         Marker marker = mMap.addMarker(markersBeggin);
                         marker.setTag(route.getDescription());
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.078776, 19.406949), (float) 5.5));
 
-
-
                         MarkerOptions markersEnd = new MarkerOptions();
 
                         markersEnd.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                         markersEnd.title("Koniec trasy " + "\""+ route.getName() + "\"");
                         markersEnd.position(new LatLng(latEnd, lonEnd));
-                        markersEnd.snippet("Wojewdztwo: " + route.getRegion()
-//                                + "\n" +
-//                                "Długość geograficzna: " + route.getLongitude() + "\n" +
-//                                "Szerokość geograficzna " + route.getLatitude()
-                        );
+//                        markersEnd.snippet("Wojewdztwo: " + route.getRegion()
+//                        );
 
 
                         Marker markerEnd = mMap.addMarker(markersEnd);
-
                         markerEnd.setTag(route.getDescription());
-
-
-
-
-
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -267,107 +205,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         queue.add(jsonObjectRequest);
     }
 
-//    public void getRoutes(){
-//
-//        final Route route = new Route();
-//
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Const.URL_ROUTES, null, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//
-//                try {
-//                    JSONArray routes = response.getJSONArray("routes");
-//
-//                    for (int i=0; i<routes.length(); i++){
-//
-//                        JSONObject routesObject = routes.getJSONObject(i);
-//
-//                        // Log.d("Longitude", routesObject.getString("longitude"));
-//
-//                        double lon = Double.valueOf(routesObject.getString("longitude"));
-//                        double lat = Double.valueOf(routesObject.getString("latitude"));
-//
-//                        double lonEnd = Double.valueOf(routesObject.getString("endlongitude"));
-//                        double latEnd = Double.valueOf(routesObject.getString("endlatitude"));
-//
-//
-//
-//                        route.setName(routesObject.getString("name"));
-//                        route.setDescription(routesObject.getString("description"));
-//                        route.setLongitude(routesObject.getString("longitude"));
-//                        route.setLatitude(routesObject.getString("latitude"));
-//                        route.setRegion(routesObject.getString("region"));
-//
-//                        route.setEndLatitude(routesObject.getString("endlatitude"));
-//                        route.setEndLongitude(routesObject.getString("endlongitude"));
-//
-//
-//
-//                        //Log.d("Coordinates", lon + " " + lat);
-//
-//
-//
-//                        MarkerOptions markersBeggin = new MarkerOptions();
-//                        markersBeggin.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-//                        markersBeggin.title("Początek trasy " + "\""+ route.getName() + "\"");
-//                        markersBeggin.position(new LatLng(lat, lon));
-//                        markersBeggin.snippet("Wojewdztwo: " + route.getRegion()
-////                                + "\n" +
-////                                "Długość geograficzna: " + route.getLongitude() + "\n" +
-////                                "Szerokość geograficzna " + route.getLatitude()
-//                        );
-//
-//
-//
-//
-//                        Marker marker = mMap.addMarker(markersBeggin);
-//                        marker.setTag(route.getDescription());
-//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.078776, 19.406949), (float) 5.5));
-//
-//
-//
-//                        MarkerOptions markersEnd = new MarkerOptions();
-//
-//                        markersEnd.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-//                        markersEnd.title("Koniec trasy " + "\""+ route.getName() + "\"");
-//                        markersEnd.position(new LatLng(latEnd, lonEnd));
-//                        markersEnd.snippet("Wojewdztwo: " + route.getRegion()
-////                                + "\n" +
-////                                "Długość geograficzna: " + route.getLongitude() + "\n" +
-////                                "Szerokość geograficzna " + route.getLatitude()
-//                        );
-//
-//
-//                        Marker markerEnd = mMap.addMarker(markersEnd);
-//
-//                        markerEnd.setTag(route.getDescription());
-//
-//
-//
-//
-//
-//                    }
-//
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
-//
-//        queue.add(jsonObjectRequest);
-//    }
 
     public void getMoreDetails(String desc){
-
-
-       // Route route = new Route();
 
 
         dialogBuilder = new AlertDialog.Builder(MapsActivity.this);
@@ -395,9 +234,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
-       //  Toast.makeText(getApplicationContext(), marker.getTag().toString(), Toast.LENGTH_LONG).show();
-
 
        String desc = marker.getTag().toString();
 
