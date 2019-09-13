@@ -35,7 +35,6 @@ public class FilterRoutes extends AppCompatActivity {
 
         String region = getIntent().getStringExtra("region");
         String difficulty = getIntent().getStringExtra("difficulty");
-
         String lengthFrom = getIntent().getStringExtra("lengthFrom");
         String lengthTo = getIntent().getStringExtra("lengthTo");
 

@@ -47,12 +47,12 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
     private String routeDescription;
     private String routePicture;
     private String routeRegion;
-    private String routeLatitude;
-    private String routeLongitude;
+    private double routeLatitude;
+    private double routeLongitude;
     private String routeDifficulty;
     private String routeLength;
-    private String routeEndLatitude;
-    private String routeEndLongitude;
+    private double routeEndLatitude;
+    private double routeEndLongitude;
 
 
 
@@ -83,6 +83,11 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
         routeLength = route.getLength();
         routeEndLatitude = route.getEndLatitude();
         routeEndLongitude = route.getEndLongitude();
+
+        String routeLatitude = String.valueOf(route.getLatitude());
+        String routeLongitude = String.valueOf(route.getLongitude());
+        String routeEndLatitude = String.valueOf(route.getEndLatitude());
+        String routeEndLongitude = String.valueOf(route.getEndLongitude());
 
 
         routeImage = findViewById(R.id.routeImageID);
@@ -225,19 +230,13 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
 
 
     private void initGoogleMap(Bundle savedInstanceState){
-
-        // *** IMPORTANT ***
-        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
-        // objects or sub-Bundles.
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
         mMapView = findViewById(R.id.mapView);
         mMapView.onCreate(mapViewBundle);
-
         mMapView.getMapAsync(this);
-
     }
 
     @Override
@@ -275,20 +274,20 @@ public class RouteDetailActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap map) {
 
-        Double doubleLatitude = Double.valueOf(routeLatitude);
-        Double doubleLongitude = Double.valueOf(routeLongitude);
+        Double doubleLatitude = routeLatitude;
+        Double doubleLongitude = routeLongitude;
 
-        Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
-        Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
+        Double doubleEndLatitude = routeEndLatitude;
+        Double doubleEndLongitude = routeEndLongitude;
 
 
-        Marker m1 = map.addMarker(new MarkerOptions()
+        map.addMarker(new MarkerOptions()
                 .position(new LatLng(doubleLatitude, doubleLongitude))
                 .title("Początek trasy")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
 
-        Marker m2 = map.addMarker(new MarkerOptions()
+        map.addMarker(new MarkerOptions()
                 .position(new LatLng(doubleEndLatitude, doubleEndLongitude))
                 .title("Koniec trasy")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));

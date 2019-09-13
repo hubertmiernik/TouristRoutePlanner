@@ -65,7 +65,7 @@ public class HistoryActivity extends AppCompatActivity {
     private void getFilterRoutes(final String email) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_HISTORY,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_GET_FILTER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MapView mMapView;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
-    public String test ="";
+    public double test = 0.0;
 
 
     @Override
@@ -225,12 +225,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 object.getString("name"),
                                 object.getString("description"),
                                 object.getString("region"),
-                                object.getString("latitude"),
-                                object.getString("longitude"),
+                                object.getDouble("latitude"),
+                                object.getDouble("longitude"),
                                 object.getString("picture"),
                                 object.getString("difficulty"),
-                                object.getString("endlatitude"),
-                                object.getString("endlongitude"),
+                                object.getDouble("endlatitude"),
+                                object.getDouble("endlongitude"),
                                 object.getString("length"),
                                 distance
                         );
@@ -430,8 +430,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             System.out.println("HELLO FROM MAP READY!");
             if (Common.getInstance().getNearbyRoute() != null) {
                 Route nearbyRoute = Common.getInstance().getNearbyRoute();
-                double nerLat = Double.parseDouble(nearbyRoute.getLatitude());
-                double nerLon = Double.parseDouble(nearbyRoute.getLongitude());
+                double nerLat = nearbyRoute.getLatitude();
+                double nerLon = nearbyRoute.getLongitude();
 
                 map.addMarker(new MarkerOptions()
                         .position(new LatLng(nerLat, nerLon))

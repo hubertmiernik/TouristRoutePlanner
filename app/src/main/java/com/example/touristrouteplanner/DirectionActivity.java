@@ -44,10 +44,10 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
     private Context context;
 
     private Route route;
-    private String routeLatitude;
-    private String routeLongitude;
-    private String routeEndLatitude;
-    private String routeEndLongitude;
+    private double routeLatitude;
+    private double routeLongitude;
+    private double routeEndLatitude;
+    private double routeEndLongitude;
     private RequestQueue queue;
 
     TextView distance, duration;
@@ -182,30 +182,23 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
         map.addMarker(place1);
         map.addMarker(place2);
 
-        Double doubleLatitude = Double.valueOf(routeLatitude);
-        Double doubleLongitude = Double.valueOf(routeLongitude);
+        Double doubleLatitude = routeLatitude;
+        Double doubleLongitude = routeLongitude;
 
-        Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
-        Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
+        Double doubleEndLatitude = routeEndLatitude;
+        Double doubleEndLongitude = routeEndLongitude;
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((doubleLatitude+doubleEndLatitude)/2,(doubleLongitude+doubleEndLongitude)/2), 6));
     }
 
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
-        // Origin of route
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-        // Destination of route
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-        // Mode
+        String originPlace = "origin=" + origin.latitude + "," + origin.longitude;
+        String destinationPlace = "destination=" + dest.latitude + "," + dest.longitude;
         String mode = "mode=" + directionMode;
-        // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + mode;
-        // Output format
+        String parameters = originPlace + "&" + destinationPlace + "&" + mode;
         String output = "json";
-        // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_key);
-        return url;
+        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_key);
     }
 
 
@@ -219,14 +212,16 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
 
     public List<Route> getDistanceWalking(){
 
-        Double doubleLatitude = Double.valueOf(routeLatitude);
-        Double doubleLongitude = Double.valueOf(routeLongitude);
+        Double doubleLatitude = routeLatitude;
+        Double doubleLongitude = routeLongitude;
 
-        Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
-        Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
+        Double doubleEndLatitude = routeEndLatitude;
+        Double doubleEndLongitude = routeEndLongitude;
 
         String URL = "https://maps.googleapis.com/maps/api/directions/json?origin="+doubleLatitude+","+doubleLongitude +
                 "&destination="+doubleEndLatitude+","+doubleEndLongitude+"&mode=walking&key="+ getString(R.string.google_maps_key);
+
+       // String URL = getUrl(place1.getPosition(), place2.getPosition(), "walking");
 
 
 
@@ -287,11 +282,11 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
 
     public List<Route> getDistanceDriving(){
 
-        Double doubleLatitude = Double.valueOf(routeLatitude);
-        Double doubleLongitude = Double.valueOf(routeLongitude);
+        Double doubleLatitude = routeLatitude;
+        Double doubleLongitude = routeLongitude;
 
-        Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
-        Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
+        Double doubleEndLatitude = routeEndLatitude;
+        Double doubleEndLongitude = routeEndLongitude;
 
         String URL = "https://maps.googleapis.com/maps/api/directions/json?origin="+doubleLatitude+","+doubleLongitude +
                 "&destination="+doubleEndLatitude+","+doubleEndLongitude+"&mode=driving&key="+ getString(R.string.google_maps_key);
@@ -322,10 +317,6 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
                     route.setDistance(distance.getString("text"));
                     route.setDuration(duration.getString("text"));
 
-
-                        Log.d("DETAIL DRIVING distance", route.getDistance());
-                        Log.d("DETAIL DRIVING duration", route.getDuration());
-
                     routeDetailsDriving.add(route);
 
 
@@ -348,11 +339,11 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
 
     public List<Route> getDistanceBicycling(){
 
-        Double doubleLatitude = Double.valueOf(routeLatitude);
-        Double doubleLongitude = Double.valueOf(routeLongitude);
+        Double doubleLatitude = routeLatitude;
+        Double doubleLongitude = routeLongitude;
 
-        Double doubleEndLatitude = Double.valueOf(routeEndLatitude);
-        Double doubleEndLongitude = Double.valueOf(routeEndLongitude);
+        Double doubleEndLatitude = routeEndLatitude;
+        Double doubleEndLongitude = routeEndLongitude;
 
         String URL = "https://maps.googleapis.com/maps/api/directions/json?origin="+doubleLatitude+","+doubleLongitude +
                 "&destination="+doubleEndLatitude+","+doubleEndLongitude+"&mode=bicycling&key="+ getString(R.string.google_maps_key);

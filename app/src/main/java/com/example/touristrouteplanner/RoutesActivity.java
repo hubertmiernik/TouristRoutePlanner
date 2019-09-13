@@ -39,20 +39,6 @@ public class RoutesActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Trasy turystyczne");
 
 
-//
-//
-//        recyclerView = findViewById(R.id.recyclerView);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        routeList = new ArrayList<>();
-//
-//
-//        routeRecyclerViewAdapter = new RouteRecyclerViewAdapter(this, routeList);
-//        recyclerView.setAdapter(routeRecyclerViewAdapter);
-//        routeRecyclerViewAdapter.notifyDataSetChanged();
-
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -60,7 +46,6 @@ public class RoutesActivity extends AppCompatActivity {
         recyclerView.setAdapter(routeRecyclerViewAdapter);
 
         getRoutes();
-
 
     }
 

@@ -11,18 +11,18 @@ public class Route implements Serializable {
     private String name;
     private String description;
     private String region;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
     private String picture;
     private String difficulty;
-    private String endLatitude;
-    private String endLongitude;
+    private double endLatitude;
+    private double endLongitude;
     private String length;
     private String distance = null;
     private String duration =  null;
     private Double distanceFromPoint;
 
-    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, String length, String distance, String duration) {
+    public Route(String name, String description, String region, double latitude, double longitude, String picture, String difficulty, double endLatitude, double endLongitude, String length, String distance, String duration) {
         this.name = name;
         this.description = description;
         this.region = region;
@@ -37,7 +37,7 @@ public class Route implements Serializable {
         this.duration = duration;
     }
 
-    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, String length, Double distanceFromPoint) {
+    public Route(String name, String description, String region, double latitude, double longitude, String picture, String difficulty, double endLatitude, double endLongitude, String length, Double distanceFromPoint) {
         this.name = name;
         this.description = description;
         this.region = region;
@@ -51,7 +51,7 @@ public class Route implements Serializable {
         this.distanceFromPoint = distanceFromPoint;
     }
 
-    public Route(String name, String description, String region, String latitude, String longitude, String picture, String difficulty, String endLatitude, String endLongitude, String length) {
+    public Route(String name, String description, String region, double latitude, double longitude, String picture, String difficulty, double endLatitude, double endLongitude, String length) {
         this.name = name;
         this.description = description;
         this.region = region;
@@ -92,19 +92,19 @@ public class Route implements Serializable {
         this.region = region;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -124,19 +124,19 @@ public class Route implements Serializable {
         this.difficulty = difficulty;
     }
 
-    public String getEndLatitude() {
+    public double getEndLatitude() {
         return endLatitude;
     }
 
-    public void setEndLatitude(String endLatitude) {
+    public void setEndLatitude(double endLatitude) {
         this.endLatitude = endLatitude;
     }
 
-    public String getEndLongitude() {
+    public double getEndLongitude() {
         return endLongitude;
     }
 
-    public void setEndLongitude(String endLongitude) {
+    public void setEndLongitude(double endLongitude) {
         this.endLongitude = endLongitude;
     }
 

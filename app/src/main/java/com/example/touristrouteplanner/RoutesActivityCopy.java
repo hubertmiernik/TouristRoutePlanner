@@ -76,13 +76,13 @@ public class RoutesActivityCopy extends AppCompatActivity {
                         route.setRegion(routeObj.getString("region"));
                         route.setPicture(routeObj.getString("picture"));
                         route.setDescription(routeObj.getString("description"));
-                        route.setLongitude(routeObj.getString("longitude"));
-                        route.setLatitude(routeObj.getString("latitude"));
+                        route.setLongitude(routeObj.getDouble("longitude"));
+                        route.setLatitude(routeObj.getDouble("latitude"));
                         route.setDifficulty(routeObj.getString("difficulty"));
                         route.setLength(routeObj.getString("length"));
 
-                        route.setEndLongitude(routeObj.getString("endlongitude"));
-                        route.setEndLatitude(routeObj.getString("endlatitude"));
+                        route.setEndLongitude(routeObj.getDouble("endlongitude"));
+                        route.setEndLatitude(routeObj.getDouble("endlatitude"));
 
 
 //

@@ -52,15 +52,11 @@ public class RouteRecyclerViewAdapter extends RecyclerView.Adapter<RouteRecycler
 
         Route route = routeList.get(position);
         String pictureLink = route.getPicture();
-
         holder.name.setText(route.getName());
         holder.region.setText(route.getRegion());
         holder.difficulty.setText(route.getDifficulty());
         holder.length.setText(route.getLength());
-
         Picasso.with(context).load(pictureLink).placeholder(android.R.drawable.ic_btn_speak_now).into(holder.picture);
-
-
     }
 
     @Override

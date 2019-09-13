@@ -70,11 +70,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.setInfoWindowAdapter(new CustomInfoWindow(getApplicationContext()));
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerClickListener(this);
-
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -160,21 +158,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     ArrayList<Route> routes =
                             Common.getInstance().getRoutesFromJSONResponse(response);
                     for (Route route: routes) {
-                        double lon =  Double.valueOf(route.getLongitude());
-                        double lat =  Double.valueOf(route.getLatitude());
+                        double lon =  route.getLongitude();
+                        double lat =  route.getLatitude();
 
-                        double lonEnd = Double.valueOf(route.getEndLongitude());
-                        double latEnd = Double.valueOf(route.getEndLatitude());
+                        double lonEnd = route.getEndLongitude();
+                        double latEnd = route.getEndLatitude();
 
-                        MarkerOptions markersBeggin = new MarkerOptions();
-                        markersBeggin.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                        markersBeggin.title("Początek trasy " + "\""+ route.getName() + "\"");
-                        markersBeggin.position(new LatLng(lat, lon));
-                        markersBeggin.snippet("Wojewdztwo: " + route.getRegion()
+                        MarkerOptions markers = new MarkerOptions();
+                        markers.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                        markers.title("Początek trasy " + "\""+ route.getName() + "\"");
+                        markers.position(new LatLng(lat, lon));
+                        markers.snippet("Wojewdztwo: " + route.getRegion()
                         );
 
-
-                        Marker marker = mMap.addMarker(markersBeggin);
+                        Marker marker = mMap.addMarker(markers);
                         marker.setTag(route.getDescription());
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.078776, 19.406949), (float) 5.5));
 
@@ -183,9 +180,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         markersEnd.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                         markersEnd.title("Koniec trasy " + "\""+ route.getName() + "\"");
                         markersEnd.position(new LatLng(latEnd, lonEnd));
-//                        markersEnd.snippet("Wojewdztwo: " + route.getRegion()
-//                        );
-
 
                         Marker markerEnd = mMap.addMarker(markersEnd);
                         markerEnd.setTag(route.getDescription());

@@ -55,12 +55,12 @@ public class Common {
                             object.getString("name"),
                             object.getString("description"),
                             object.getString("region"),
-                            object.getString("latitude"),
-                            object.getString("longitude"),
+                            object.getDouble("latitude"),
+                            object.getDouble("longitude"),
                             object.getString("picture"),
                             object.getString("difficulty"),
-                            object.getString("endlatitude"),
-                            object.getString("endlongitude"),
+                            object.getDouble("endlatitude"),
+                            object.getDouble("endlongitude"),
                             object.getString("length"))
             );
         }
@@ -81,12 +81,12 @@ public class Common {
                             object.getString("name"),
                             object.getString("description"),
                             object.getString("region"),
-                            object.getString("latitude"),
-                            object.getString("longitude"),
+                            object.getDouble("latitude"),
+                            object.getDouble("longitude"),
                             object.getString("picture"),
                             object.getString("difficulty"),
-                            object.getString("endlatitude"),
-                            object.getString("endlongitude"),
+                            object.getDouble("endlatitude"),
+                            object.getDouble("endlongitude"),
                             object.getString("length"))
             );
         }
