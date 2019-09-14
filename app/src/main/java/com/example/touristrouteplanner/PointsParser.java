@@ -17,55 +17,29 @@ import java.util.List;
 
 public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
     TaskLoadedCallback taskCallback;
-    String directionMode = "walking";
+    String directionMode;
 
     public PointsParser(Context mContext, String directionMode) {
         this.taskCallback = (TaskLoadedCallback) mContext;
         this.directionMode = directionMode;
     }
 
-    // Parsing the data in non-ui thread
     @Override
-    protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-
-        JSONObject jObject;
-        List<List<HashMap<String, String>>> routes = null;
-
-        try {
-            jObject = new JSONObject(jsonData[0]);
-            Log.d("mylog", jsonData[0].toString());
-            DataParser parser = new DataParser();
-            Log.d("mylog", parser.toString());
-
-            // Starts parsing data
-            routes = parser.parse(jObject);
-            Log.d("mylog", "Executing routes");
-            Log.d("mylog", routes.toString());
-
-        } catch (Exception e) {
-            Log.d("mylog", e.toString());
-            e.printStackTrace();
-        }
-        return routes;
-    }
-
-    // Executes in UI thread, after the parsing process
-    @Override
-    protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-        ArrayList<LatLng> points;
+    protected void onPostExecute(List<List<HashMap<String, String>>> output) {
+        ArrayList<LatLng> pointlist;
         PolylineOptions lineOptions = null;
-        for (int i = 0; i < result.size(); i++) {
-            points = new ArrayList<>();
+        for (int i = 0; i < output.size(); i++) {
+            pointlist = new ArrayList<>();
             lineOptions = new PolylineOptions();
-            List<HashMap<String, String>> path = result.get(i);
+            List<HashMap<String, String>> path = output.get(i);
             for (int j = 0; j < path.size(); j++) {
-                HashMap<String, String> point = path.get(j);
-                double lat = Double.parseDouble(point.get("lat"));
-                double lng = Double.parseDouble(point.get("lng"));
+                HashMap<String, String> object = path.get(j);
+                double lat = Double.parseDouble(object.get("lat"));
+                double lng = Double.parseDouble(object.get("lng"));
                 LatLng position = new LatLng(lat, lng);
-                points.add(position);
+                pointlist.add(position);
             }
-            lineOptions.addAll(points);
+            lineOptions.addAll(pointlist);
             if (directionMode.equalsIgnoreCase("walking")) {
                 lineOptions.width(10);
                 lineOptions.color(Color.RED);
@@ -78,14 +52,24 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
                 lineOptions.width(10);
                 lineOptions.color(Color.BLUE);
             }
-            Log.d("mylog", "onPostExecute lineoptions decoded");
         }
-
         if (lineOptions != null) {
             taskCallback.onTaskDone(lineOptions);
-
         } else {
-            Log.d("mylog", "without Polylines drawn");
+            System.out.println("no polilyne");        }
+    }
+
+    @Override
+    protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+        JSONObject jObject;
+        List<List<HashMap<String, String>>> routes = null;
+        try {
+            jObject = new JSONObject(jsonData[0]);
+            DataParser parser = new DataParser();
+            routes = parser.parse(jObject);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return routes;
     }
 }
